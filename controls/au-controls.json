@@ -1,0 +1,153 @@
+{
+  "AU": {
+    "AU-2": {
+      "id": "AU-2",
+      "family": "AU",
+      "title": "Audit Events",
+      "description": "The organization determines that the information system is capable of auditing organizational-defined auditable events; coordinates the security audit function with other organizational entities requiring audit-related information; provides a rationale for why the auditable events are deemed to be adequate; and determines that the organization-defined subset of the auditable events are to be audited within the information system.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-6", "AC-17", "AU-3", "AU-12", "MA-4", "MP-2", "MP-4", "SI-4"],
+      "importance": "Audit event capability is essential for monitoring system activity, detecting security violations, and establishing accountability for system users and administrators.",
+      "mitigationSuggestions": [
+        "Define comprehensive list of auditable events",
+        "Implement event logging for all security-relevant activities",
+        "Coordinate audit requirements with security operations",
+        "Document rationale for selected audit events",
+        "Configure appropriate audit levels based on system sensitivity"
+      ],
+      "assessmentProcedures": [
+        "Review audit policy documentation",
+        "Verify system capability to audit required events",
+        "Validate audit event selection rationale",
+        "Ensure audit coordination procedures exist"
+      ],
+      "requiredArtifacts": [
+        "Documentation identifying auditable events",
+        "Rationale for audit event selection",
+        "Audit policy defining events and frequency",
+        "Evidence of audit coordination with other organizations (if applicable)"
+      ]
+    },
+    "AU-3": {
+      "id": "AU-3",
+      "family": "AU",
+      "title": "Content of Audit Records",
+      "description": "The information system generates audit records containing information that establishes what type of event occurred, when the event occurred, where the event occurred, the source of the event, the outcome of the event, and the identity of any individuals or subjects associated with the event.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AU-2", "AU-8", "AU-12", "SI-11"],
+      "importance": "Detailed audit records are essential for security investigations, establishing accountability, and understanding the nature and impact of security events.",
+      "mitigationSuggestions": [
+        "Configure audit record content to include all required details",
+        "Ensure timestamp accuracy in audit records",
+        "Include source and destination addressing in network event logs",
+        "Capture success/failure indicators for all events",
+        "Include user identifiers in all applicable audit records"
+      ],
+      "assessmentProcedures": [
+        "Review audit record configuration",
+        "Verify audit records contain required content",
+        "Test audit record generation for different event types",
+        "Validate timestamp accuracy"
+      ],
+      "requiredArtifacts": [
+        "Audit record samples showing event descriptions",
+        "Evidence of timestamp inclusion in audit records",
+        "Samples showing source/destination information",
+        "Audit records demonstrating success/failure indicators",
+        "Records showing user/process identifiers"
+      ]
+    },
+    "AU-6": {
+      "id": "AU-6",
+      "family": "AU",
+      "title": "Audit Review, Analysis, and Reporting",
+      "description": "The organization reviews and analyzes information system audit records for indications of inappropriate or unusual activity; reports findings to designated organizational officials; and adjusts the level of audit review, analysis, and reporting within the information system when there is a change in risk based on law enforcement information, intelligence information, or other credible sources of information.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "AC-6", "AC-17", "AT-3", "AU-7", "CA-7", "CM-6", "IA-3", "IR-5", "IR-6", "MA-4", "MP-4", "PE-3", "PE-6", "RA-5", "SC-7", "SI-4", "PM-7"],
+      "importance": "Regular audit review and analysis is essential for identifying security violations, compliance issues, and system vulnerabilities in a timely manner.",
+      "mitigationSuggestions": [
+        "Establish regular audit review procedures",
+        "Define criteria for identifying inappropriate activity",
+        "Implement automated analysis tools",
+        "Establish clear reporting channels for findings",
+        "Adjust analysis frequency based on risk factors"
+      ],
+      "assessmentProcedures": [
+        "Review audit review and analysis procedures",
+        "Verify implementation of review processes",
+        "Validate reporting mechanisms for findings",
+        "Test response to unusual activity detection"
+      ],
+      "requiredArtifacts": [
+        "Audit and accountability policy with review procedures",
+        "Documentation defining inappropriate/unusual activity",
+        "Evidence of regular audit reviews",
+        "Reporting process documentation",
+        "List of personnel who receive notifications of unusual activity"
+      ]
+    },
+    "AU-9": {
+      "id": "AU-9",
+      "family": "AU",
+      "title": "Protection of Audit Information",
+      "description": "The information system protects audit information and audit tools from unauthorized access, modification, and deletion.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-3", "AC-6", "MP-2", "MP-4", "PE-2", "PE-3", "PE-6"],
+      "importance": "Protecting audit information ensures the integrity of security monitoring and prevents attackers from covering their tracks by modifying audit logs.",
+      "mitigationSuggestions": [
+        "Implement access controls for audit logs and tools",
+        "Configure write-once or append-only audit storage",
+        "Back up audit logs to secure storage",
+        "Use cryptographic protections for audit data",
+        "Restrict audit tool access to authorized administrators"
+      ],
+      "assessmentProcedures": [
+        "Review audit protection mechanisms",
+        "Test access controls for audit information",
+        "Verify protection against unauthorized modification",
+        "Validate protection against unauthorized deletion"
+      ],
+      "requiredArtifacts": [
+        "Audit and accountability policy with protection measures",
+        "Configuration settings for audit information protection",
+        "Access control lists for audit logs and tools",
+        "Evidence of backup procedures for audit data",
+        "List of personnel authorized to access audit tools"
+      ]
+    },
+    "AU-12": {
+      "id": "AU-12",
+      "family": "AU",
+      "title": "Audit Generation",
+      "description": "The information system provides audit record generation capability for the auditable events defined in AU-2; allows designated organizational personnel to select which auditable events are to be audited by specific components of the information system; and generates audit records for the events with the content defined in AU-3.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-3", "AU-2", "AU-3", "AU-6", "AU-7"],
+      "importance": "Audit generation capabilities are fundamental to security monitoring and ensure that security-relevant events are properly captured and recorded.",
+      "mitigationSuggestions": [
+        "Configure all system components to generate appropriate audit records",
+        "Implement centralized audit management",
+        "Ensure all required audit content is included in records",
+        "Test audit generation capabilities regularly",
+        "Monitor for audit generation failures"
+      ],
+      "assessmentProcedures": [
+        "Verify audit generation capability across system components",
+        "Test selectable audit event configuration",
+        "Validate audit record content compliance with AU-3",
+        "Review audit component documentation"
+      ],
+      "requiredArtifacts": [
+        "Audit and accountability policy documentation",
+        "List of information system components providing audit capability",
+        "Configuration settings for audit generation",
+        "Evidence of audit record generation testing",
+        "STIG compliance documentation"
+      ]
+    }
+  }
+}

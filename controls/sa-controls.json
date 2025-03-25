@@ -1,0 +1,154 @@
+{
+  "SA": {
+    "SA-1": {
+      "id": "SA-1",
+      "family": "SA",
+      "title": "System and Services Acquisition Policy and Procedures",
+      "description": "The organization develops, documents, and disseminates to appropriate personnel: a system and services acquisition policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance; and procedures to facilitate the implementation of the system and services acquisition policy and associated system and services acquisition controls.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Critical for establishing consistent and effective acquisition practices across the organization.",
+      "mitigationSuggestions": [
+        "Develop comprehensive acquisition policies",
+        "Establish clear acquisition procedures",
+        "Regularly review and update documentation",
+        "Train staff on acquisition procedures"
+      ],
+      "assessmentProcedures": [
+        "Review acquisition policy and procedures",
+        "Verify policy dissemination",
+        "Check policy review process",
+        "Confirm procedure implementation"
+      ],
+      "requiredArtifacts": [
+        "System and services acquisition policy",
+        "Acquisition procedures",
+        "Policy review documentation",
+        "Training materials",
+        "Dissemination records"
+      ],
+      "commentary": "System and services acquisition policies and procedures are essential for ensuring security requirements are properly considered during the acquisition process."
+    },
+    "SA-2": {
+      "id": "SA-2",
+      "family": "SA",
+      "title": "Allocation of Resources",
+      "description": "The organization determines information security requirements for the information system or information system service in mission/business process planning; determines, documents, and allocates the resources required to protect the information system or information system service as part of its capital planning and investment control process.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-3", "PM-11", "SA-1"],
+      "importance": "Essential for ensuring adequate resources are allocated for security requirements.",
+      "mitigationSuggestions": [
+        "Document security requirements in planning",
+        "Include security costs in budgets",
+        "Review resource allocation regularly",
+        "Monitor security investment effectiveness"
+      ],
+      "assessmentProcedures": [
+        "Review resource allocation process",
+        "Verify security requirements documentation",
+        "Check budget planning",
+        "Evaluate resource adequacy"
+      ],
+      "requiredArtifacts": [
+        "Security requirements documentation",
+        "Resource allocation plans",
+        "Budget documentation",
+        "Investment justification",
+        "Planning records"
+      ],
+      "commentary": "Proper allocation of resources is crucial for ensuring security requirements can be effectively implemented and maintained throughout the system lifecycle."
+    },
+    "SA-3": {
+      "id": "SA-3",
+      "family": "SA",
+      "title": "System Development Life Cycle",
+      "description": "The organization manages the information system using a system development life cycle methodology that incorporates information security considerations; defines and documents information security roles and responsibilities throughout the system development life cycle.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-7", "SA-1", "SA-8"],
+      "importance": "Critical for integrating security throughout the system development process.",
+      "mitigationSuggestions": [
+        "Implement secure SDLC methodology",
+        "Define security roles clearly",
+        "Document security requirements",
+        "Review security at each phase"
+      ],
+      "assessmentProcedures": [
+        "Review SDLC methodology",
+        "Verify security integration",
+        "Check role definitions",
+        "Evaluate phase reviews"
+      ],
+      "requiredArtifacts": [
+        "SDLC documentation",
+        "Security role definitions",
+        "Phase review records",
+        "Security requirements",
+        "Integration evidence"
+      ],
+      "commentary": "A well-defined system development life cycle with integrated security considerations helps ensure security requirements are addressed throughout system development and maintenance."
+    },
+    "SA-4": {
+      "id": "SA-4",
+      "family": "SA",
+      "title": "Acquisition Process",
+      "description": "The organization includes security functional requirements, security strength requirements, security assurance requirements, security-related documentation requirements, requirements for protecting security-related documentation, and development and evaluation-related requirements in information system acquisition contracts.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CM-8", "SA-3", "SA-5", "SA-8", "SA-11"],
+      "importance": "Critical for ensuring security requirements are properly addressed in system acquisitions.",
+      "mitigationSuggestions": [
+        "Define security requirements in contracts",
+        "Include documentation requirements",
+        "Specify evaluation criteria",
+        "Review vendor compliance"
+      ],
+      "assessmentProcedures": [
+        "Review acquisition contracts",
+        "Verify security requirements",
+        "Check documentation requirements",
+        "Evaluate vendor assessments"
+      ],
+      "requiredArtifacts": [
+        "Acquisition contracts",
+        "Security requirements",
+        "Documentation requirements",
+        "Evaluation criteria",
+        "Vendor assessments"
+      ],
+      "commentary": "The acquisition process must include comprehensive security requirements to ensure acquired systems and services meet organizational security needs."
+    },
+    "SA-22": {
+      "id": "SA-22",
+      "family": "SA",
+      "title": "Unsupported System Components",
+      "description": "The organization replaces system components when support for the components is no longer available from the developer, vendor, or manufacturer; and provides justification and documents approval for the continued use of unsupported system components required to satisfy mission/business needs.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["PL-2", "SA-3"],
+      "importance": "Critical for managing risks associated with unsupported system components.",
+      "mitigationSuggestions": [
+        "Maintain inventory of system components",
+        "Track vendor support status",
+        "Plan component replacements",
+        "Document exceptions properly"
+      ],
+      "assessmentProcedures": [
+        "Review component inventory",
+        "Verify support status tracking",
+        "Check replacement planning",
+        "Evaluate exception documentation"
+      ],
+      "requiredArtifacts": [
+        "Component inventory",
+        "Support status records",
+        "Replacement plans",
+        "Exception documentation",
+        "Approval records"
+      ],
+      "commentary": "Managing unsupported system components is crucial for maintaining system security and reducing risks associated with components that no longer receive security updates or patches."
+    }
+  }
+} 

@@ -1,0 +1,94 @@
+{
+  "PL": {
+    "PL-1": {
+      "id": "PL-1",
+      "family": "PL",
+      "title": "Security Planning Policy and Procedures",
+      "description": "The organization develops, disseminates, and reviews/updates at least annually a formal, documented security planning policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PL-2", "PM-9", "SI-12"],
+      "importance": "Critical for establishing a structured approach to security planning and ensuring consistent planning practices across the organization.",
+      "mitigationSuggestions": [
+        "Develop comprehensive security planning policy",
+        "Establish clear roles and responsibilities",
+        "Create security planning procedures",
+        "Regularly review and update policies"
+      ],
+      "assessmentProcedures": [
+        "Review security planning policy documentation",
+        "Check policy dissemination records",
+        "Verify annual review process",
+        "Review policy compliance mechanisms"
+      ],
+      "requiredArtifacts": [
+        "Security Planning Policy",
+        "Policy dissemination records",
+        "Annual review documentation",
+        "Roles and responsibilities matrix",
+        "Compliance documentation"
+      ],
+      "commentary": "The security planning policy provides the foundation for the organization's security planning program. It should clearly define the purpose, scope, roles, responsibilities, and management commitment to security planning activities. The policy should also address coordination among organizational entities and compliance requirements. Regular review and updates ensure the policy remains current and effective."
+    },
+    "PL-2": {
+      "id": "PL-2",
+      "family": "PL",
+      "title": "System Security Plan",
+      "description": "The organization develops, reviews, updates, and maintains a security plan for the information system that describes the security controls in place or planned for the system.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-6", "CA-2", "CA-7", "CM-2", "CM-3", "CM-4", "CM-9", "PL-1", "PM-1", "PM-4", "PM-7", "PM-8", "PM-9", "PM-11", "SA-5", "SI-12"],
+      "importance": "Critical for documenting and maintaining the security posture of information systems.",
+      "mitigationSuggestions": [
+        "Develop comprehensive system security plan",
+        "Document security control implementation",
+        "Maintain security plan updates",
+        "Protect security plan from unauthorized access"
+      ],
+      "assessmentProcedures": [
+        "Review security plan documentation",
+        "Check plan maintenance records",
+        "Verify security control documentation",
+        "Review plan protection mechanisms"
+      ],
+      "requiredArtifacts": [
+        "System Security Plan (SSP)",
+        "Security control documentation",
+        "Plan review records",
+        "Plan distribution records",
+        "Plan protection documentation"
+      ],
+      "commentary": "Security plans relate security requirements to a set of security controls and control enhancements. Security plans also describe, at a high level, how the security controls and control enhancements meet those security requirements. The plan should include clear definitions of the authorization boundary, operational context, security categorization, operational environment, security requirements, and control implementation details."
+    },
+    "PL-4": {
+      "id": "PL-4",
+      "family": "PL",
+      "title": "Rules of Behavior",
+      "description": "The organization establishes and makes readily available to individuals requiring access to the information system, the rules that describe their responsibilities and expected behavior with regard to information and information system usage.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PL-1", "PS-6", "PS-8"],
+      "importance": "Critical for ensuring users understand their responsibilities and acceptable behavior regarding system usage.",
+      "mitigationSuggestions": [
+        "Develop comprehensive rules of behavior",
+        "Implement user acknowledgment process",
+        "Maintain rules documentation",
+        "Regularly review and update rules"
+      ],
+      "assessmentProcedures": [
+        "Review rules of behavior documentation",
+        "Check user acknowledgment records",
+        "Verify rules distribution process",
+        "Review rules update procedures"
+      ],
+      "requiredArtifacts": [
+        "Rules of Behavior document",
+        "User acknowledgment records",
+        "Distribution records",
+        "Review and update documentation",
+        "Acceptable Use Policy (AUP)"
+      ],
+      "commentary": "The objective of PL-4 (Rules of Behavior) is to establish and provide system access, rules, responsibilities, and expected behavior of all users of the system. PL-4 ensures that all users acknowledge, understand, and agree to abide by the rules of behavior before access to information and the system is granted. The rules should address both information system usage and information usage, and users must acknowledge them before gaining access and when rules are updated."
+    }
+  }
+} 

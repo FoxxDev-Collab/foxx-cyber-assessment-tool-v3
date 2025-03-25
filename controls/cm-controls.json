@@ -1,0 +1,181 @@
+{
+  "CM": {
+    "CM-1": {
+      "id": "CM-1",
+      "family": "CM",
+      "title": "Configuration Management Policy and Procedures",
+      "description": "The organization develops, documents, and disseminates to designated personnel, a configuration management policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance; and procedures to facilitate the implementation of the configuration management policy and associated configuration management controls.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Configuration management policies establish the foundation for maintaining system integrity, security baselines, and consistent system controls throughout the lifecycle.",
+      "mitigationSuggestions": [
+        "Develop comprehensive configuration management policies",
+        "Define procedures for baseline configuration management",
+        "Establish change control requirements and processes",
+        "Document configuration monitoring procedures",
+        "Review and update policies annually"
+      ],
+      "assessmentProcedures": [
+        "Review configuration management policies",
+        "Verify configuration management procedures are documented",
+        "Ensure roles and responsibilities are defined",
+        "Validate policy review and update processes"
+      ],
+      "requiredArtifacts": [
+        "Comprehensive configuration management policy",
+        "Documentation of configuration management procedures",
+        "Evidence of policy review and updates",
+        "Configuration Control Board charter (if applicable)"
+      ]
+    },
+    "CM-2": {
+      "id": "CM-2",
+      "family": "CM",
+      "title": "Baseline Configuration",
+      "description": "The organization develops, documents, and maintains under configuration control, a current baseline configuration of the information system.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CM-3", "CM-5", "CM-6", "CM-8", "PM-5", "PM-7", "SA-10"],
+      "importance": "Baseline configurations provide a foundation for secure system implementation and operation, establishing a known-good configuration state for the system.",
+      "mitigationSuggestions": [
+        "Document all hardware, software, and configuration settings in the baseline",
+        "Maintain current baseline documentation",
+        "Implement version control for baseline configurations",
+        "Regularly validate deployed configurations against baselines",
+        "Update baselines when significant changes occur"
+      ],
+      "assessmentProcedures": [
+        "Review baseline configuration documentation",
+        "Verify baseline is maintained under configuration control",
+        "Validate baseline documentation currency"
+      ],
+      "requiredArtifacts": [
+        "Current baseline configuration documentation",
+        "Evidence of configuration control for baselines",
+        "Documentation showing baseline currency maintenance"
+      ]
+    },
+    "CM-3": {
+      "id": "CM-3",
+      "family": "CM",
+      "title": "Configuration Change Control",
+      "description": "The organization determines the types of changes to the information system that are configuration-controlled; reviews proposed configuration-controlled changes to the information system and approves or disapproves such changes; documents configuration change decisions; implements approved configuration-controlled changes to the information system; retains records of configuration-controlled changes to the information system; and monitors and reviews activities associated with configuration-controlled changes to the information system.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["CA-7", "CM-2", "CM-4", "CM-5", "CM-6", "CM-9", "SA-10", "SI-2", "SI-12"],
+      "importance": "Configuration change control ensures that changes to systems are properly evaluated, approved, tested, documented, and monitored to prevent unintended effects or security vulnerabilities.",
+      "mitigationSuggestions": [
+        "Establish a Configuration Control Board (CCB)",
+        "Document change request and approval processes",
+        "Implement security impact analysis for changes",
+        "Maintain records of all configuration changes",
+        "Test changes before implementation"
+      ],
+      "assessmentProcedures": [
+        "Review configuration management plan/policy",
+        "Verify change control processes are documented",
+        "Validate security impact analysis procedures",
+        "Examine configuration change records",
+        "Verify CCB implementation"
+      ],
+      "requiredArtifacts": [
+        "Signed Configuration Management Plan/Policy",
+        "Documentation of configuration-controlled change types",
+        "Security impact analysis procedures and examples",
+        "CCB charter and records",
+        "Configuration change audit trails",
+        "Evidence of change monitoring and review"
+      ]
+    },
+    "CM-6": {
+      "id": "CM-6",
+      "family": "CM",
+      "title": "Configuration Settings",
+      "description": "The organization establishes and documents configuration settings for information technology products employed within the information system; implements the configuration settings; identifies, documents, and approves any deviations from established configuration settings; and monitors and controls changes to the configuration settings in accordance with organizational policies and procedures.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-19", "CM-2", "CM-3", "CM-7", "CM-9", "SA-4", "SC-28", "SI-4"],
+      "importance": "Secure configuration settings are essential for minimizing system vulnerabilities and ensuring consistent security implementation across the organization.",
+      "mitigationSuggestions": [
+        "Implement security configuration checklists for all IT products",
+        "Document and implement secure configuration baselines",
+        "Regularly scan for configuration compliance",
+        "Manage and document approved deviations",
+        "Automate configuration management where possible"
+      ],
+      "assessmentProcedures": [
+        "Review security configuration documentation",
+        "Verify implementation of secure configurations",
+        "Validate processes for managing deviations",
+        "Examine configuration monitoring procedures"
+      ],
+      "requiredArtifacts": [
+        "Security Configuration Checklists",
+        "Implementation evidence of secure configurations",
+        "Documentation of approved deviations",
+        "Configuration compliance scan results",
+        "STIG/SRG/Benchmark compliance evidence"
+      ]
+    },
+    "CM-7": {
+      "id": "CM-7",
+      "family": "CM",
+      "title": "Least Functionality",
+      "description": "The organization configures the information system to provide only essential capabilities and prohibits or restricts the use of functions, ports, protocols, and/or services as defined in the security plan.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-6", "CM-2", "CM-3", "CM-5", "CM-6", "CM-11", "RA-5", "SA-5", "SC-7"],
+      "importance": "Implementing least functionality reduces the attack surface of systems by eliminating unnecessary services, functions, and capabilities that could be exploited by attackers.",
+      "mitigationSuggestions": [
+        "Document essential system capabilities",
+        "Disable or remove unnecessary functions and services",
+        "Block unused ports and protocols",
+        "Regularly review enabled functionality",
+        "Implement application whitelisting"
+      ],
+      "assessmentProcedures": [
+        "Review system documentation of essential capabilities",
+        "Verify disabled/restricted functions and services",
+        "Test port and protocol restrictions",
+        "Validate removal of unnecessary software"
+      ],
+      "requiredArtifacts": [
+        "Documentation of essential system capabilities",
+        "Evidence of disabled/restricted functions",
+        "Port and protocol documentation",
+        "STIG/SRG compliance evidence"
+      ]
+    },
+    "CM-8": {
+      "id": "CM-8",
+      "family": "CM",
+      "title": "Information System Component Inventory",
+      "description": "The organization develops and documents an inventory of information system components that accurately reflects the current information system; is consistent with the authorization boundary of the information system; is at the level of granularity deemed necessary for tracking and reporting; includes organization-defined information deemed necessary to achieve effective information system component accountability; and reviews and updates the information system component inventory.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CM-2", "CM-6", "PM-5"],
+      "importance": "A comprehensive system component inventory is essential for effective configuration management, vulnerability management, and security monitoring of the system.",
+      "mitigationSuggestions": [
+        "Implement automated asset discovery tools",
+        "Document all hardware and software components",
+        "Include component details (manufacturer, type, model, version)",
+        "Regularly validate inventory against actual deployment",
+        "Update inventory when changes occur"
+      ],
+      "assessmentProcedures": [
+        "Review component inventory documentation",
+        "Verify inventory accuracy and completeness",
+        "Validate inventory consistency with system boundary",
+        "Examine inventory review and update processes"
+      ],
+      "requiredArtifacts": [
+        "Comprehensive system component inventory",
+        "Documentation of inventory granularity",
+        "Evidence of inventory currency and maintenance",
+        "Network diagrams consistent with inventory",
+        "Hardware and software specifications"
+      ]
+    }
+  }
+}

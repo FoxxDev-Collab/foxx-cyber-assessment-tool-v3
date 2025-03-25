@@ -1,0 +1,123 @@
+{
+  "CA": {
+    "CA-1": {
+      "id": "CA-1",
+      "family": "CA",
+      "title": "Security Assessment and Authorization Policy and Procedures",
+      "description": "The organization develops, disseminates, and reviews/updates at least annually: a formal, documented security assessment and authorization policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance; and formal, documented procedures to facilitate the implementation of the security assessment and authorization policy and associated security assessment and authorization controls.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9"],
+      "importance": "High",
+      "mitigationSuggestions": [
+        "Develop and maintain comprehensive security assessment and authorization policies and procedures",
+        "Ensure regular review and updates of policies and procedures",
+        "Include clear roles and responsibilities in documentation",
+        "Establish compliance requirements and monitoring mechanisms"
+      ],
+      "assessmentProcedures": [
+        "Review the security assessment and authorization policy and procedures",
+        "Verify the policy and procedures are reviewed/updated at least annually",
+        "Check that the policy addresses purpose, scope, roles, responsibilities, and compliance",
+        "Confirm procedures are in place for implementing the policy"
+      ],
+      "requiredArtifacts": [
+        "Security assessment and authorization policy",
+        "Security assessment and authorization procedures",
+        "Documentation of policy reviews and updates",
+        "Evidence of policy dissemination"
+      ],
+      "commentary": "The security assessment and authorization policy and procedures are foundational documents that establish the framework for evaluating and authorizing information systems. Regular reviews ensure they remain current and effective."
+    },
+    "CA-2": {
+      "id": "CA-2",
+      "family": "CA",
+      "title": "Security Assessments",
+      "description": "The organization develops a security assessment plan that describes the scope of the assessment including: security controls and control enhancements under assessment; assessment procedures to be used to determine security control effectiveness; assessment environment, assessment team and assessment roles and responsibilities; assessment schedule and milestones; and assessment tools and methods to be used.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CA-1", "CA-3", "CA-5", "CA-6", "CA-7"],
+      "importance": "High",
+      "mitigationSuggestions": [
+        "Develop comprehensive security assessment plans",
+        "Include all required elements in assessment documentation",
+        "Ensure proper scheduling and resource allocation",
+        "Maintain assessment tools and methods"
+      ],
+      "assessmentProcedures": [
+        "Review the security assessment plan",
+        "Verify the plan includes all required elements",
+        "Check that assessment procedures are appropriate",
+        "Confirm assessment schedule and resources are adequate"
+      ],
+      "requiredArtifacts": [
+        "Security assessment plan",
+        "Assessment procedures documentation",
+        "Assessment schedule and milestones",
+        "Assessment team composition and roles",
+        "Assessment tools and methods documentation"
+      ],
+      "commentary": "Security assessments are crucial for evaluating the effectiveness of implemented security controls and identifying potential vulnerabilities or weaknesses in the system."
+    },
+    "CA-3": {
+      "id": "CA-3",
+      "family": "CA",
+      "title": "System Interconnections",
+      "description": "The organization authorizes connections from the information system to other information systems through the use of Interconnection Security Agreements; documents, for each interconnection, the interface characteristics, security requirements, and the nature of the information communicated; reviews and updates the Interconnection Security Agreements annually.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-4", "CA-2", "SC-7"],
+      "importance": "High",
+      "mitigationSuggestions": [
+        "Develop and maintain Interconnection Security Agreements",
+        "Document all system interconnections",
+        "Regularly review and update agreements",
+        "Monitor interconnection security"
+      ],
+      "assessmentProcedures": [
+        "Review Interconnection Security Agreements",
+        "Verify agreements are reviewed/updated annually",
+        "Check documentation of interface characteristics",
+        "Confirm security requirements are specified"
+      ],
+      "requiredArtifacts": [
+        "Interconnection Security Agreements",
+        "Interface documentation",
+        "Security requirements documentation",
+        "Annual review records",
+        "System interconnection inventory"
+      ],
+      "commentary": "System interconnections must be carefully managed to ensure security is maintained across system boundaries. Regular reviews of agreements help ensure security requirements remain appropriate and effective."
+    },
+    "CA-5": {
+      "id": "CA-5",
+      "family": "CA",
+      "title": "Plan of Action and Milestones",
+      "description": "The organization develops a plan of action and milestones for the information system that documents the organization's planned remedial actions to correct weaknesses or deficiencies noted during the assessment of the security controls and to reduce or eliminate known vulnerabilities in the system.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CA-2", "CA-6", "CA-7"],
+      "importance": "High",
+      "mitigationSuggestions": [
+        "Develop comprehensive POA&M",
+        "Include all identified weaknesses",
+        "Set realistic milestones",
+        "Track progress regularly"
+      ],
+      "assessmentProcedures": [
+        "Review the POA&M",
+        "Verify all weaknesses are addressed",
+        "Check milestone timelines",
+        "Confirm progress tracking"
+      ],
+      "requiredArtifacts": [
+        "Plan of Action and Milestones (POA&M)",
+        "Security assessment results",
+        "Weakness documentation",
+        "Milestone tracking records",
+        "Progress reports"
+      ],
+      "commentary": "The POA&M is a key document for tracking and managing the resolution of security weaknesses identified during assessments. It helps ensure that identified issues are properly addressed in a timely manner."
+    }
+  }
+} 

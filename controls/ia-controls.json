@@ -1,0 +1,154 @@
+{
+  "IA": {
+    "IA-2": {
+      "id": "IA-2",
+      "family": "IA",
+      "title": "Identification and Authentication (Organizational Users)",
+      "description": "The information system uniquely identifies and authenticates organizational users (or processes acting on behalf of organizational users).",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "AC-17", "IA-4", "IA-5", "IA-8"],
+      "importance": "Critical for ensuring that only authorized users can access the system and that user actions can be traced back to specific individuals.",
+      "mitigationSuggestions": [
+        "Implement strong password policies",
+        "Use multi-factor authentication where possible",
+        "Maintain user account management procedures",
+        "Regularly review and update access privileges"
+      ],
+      "assessmentProcedures": [
+        "Review system configuration to verify unique identification and authentication requirements",
+        "Check authentication mechanisms and their implementation",
+        "Verify user account management processes",
+        "Review access control policies and procedures"
+      ],
+      "requiredArtifacts": [
+        "Access Control Policy",
+        "System Security Plan (SSP)",
+        "STIG checklist results",
+        "User account management documentation",
+        "Authentication mechanism documentation"
+      ],
+      "commentary": "Organizational users include employees or individuals that organizations deem to have equivalent status of employees (e.g., contractors, guest researchers). This control applies to all accesses other than: (i) accesses that are explicitly identified and documented in AC-14; and (ii) accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity. Organizations employ passwords, tokens, or biometrics to authenticate user identities, or in the case multifactor authentication, or some combination thereof. Access to organizational information systems is defined as either local access or network access. Local access is any access to organizational information systems by users (or processes acting on behalf of users) where such access is obtained by direct connections without the use of networks. Network access is access to organizational information systems by users (or processes acting on behalf of users) where such access is obtained through network connections (i.e., nonlocal accesses). Remote access is a type of network access that involves communication through external networks (e.g., the Internet). Internal networks include local area networks and wide area networks. In addition, the use of encrypted virtual private networks (VPNs) for network connections between organization-controlled endpoints and non-organization controlled endpoints may be treated as internal networks from the perspective of protecting the confidentiality and integrity of information traversing the network."
+    },
+    "IA-3": {
+      "id": "IA-3",
+      "family": "IA",
+      "title": "Device Identification and Authentication",
+      "description": "The information system uniquely identifies and authenticates devices before establishing a connection.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-3", "AC-17", "IA-2", "IA-4", "IA-8"],
+      "importance": "Critical for ensuring that only authorized devices can connect to the system and that device connections can be traced.",
+      "mitigationSuggestions": [
+        "Implement device authentication mechanisms",
+        "Maintain device inventory",
+        "Use secure protocols for device authentication",
+        "Regularly review and update device access"
+      ],
+      "assessmentProcedures": [
+        "Review device authentication mechanisms",
+        "Check device inventory management",
+        "Verify device connection policies",
+        "Review device access logs"
+      ],
+      "requiredArtifacts": [
+        "Device inventory documentation",
+        "Device authentication policy",
+        "STIG checklist results",
+        "Device connection logs",
+        "Network topology documentation"
+      ],
+      "commentary": "Organizational devices requiring unique device-to-device identification and authentication may be defined by type, by device, or by a combination of type/device. Information systems typically use either shared known information (e.g., Media Access Control [MAC] or Transmission Control Protocol/Internet Protocol [TCP/IP] addresses) for device identification or organizational authentication solutions (e.g., IEEE 802.1x and Extensible Authentication Protocol [EAP], Radius server with EAP-Transport Layer Security [TLS] authentication, Kerberos) to identify/authenticate devices on local and/or wide area networks. Organizations determine the required strength of authentication mechanisms by the security categories of information systems. Because of the challenges of applying this control on large scale, organizations are encouraged to only apply the control to those limited number (and type) of devices that truly need to support this capability. IA-3 still applies in the Cloud, virtual networking infrastructure device configurations still must meet these requirements."
+    },
+    "IA-5": {
+      "id": "IA-5",
+      "family": "IA",
+      "title": "Authenticator Management",
+      "description": "The organization manages information system authenticators by establishing initial authenticator content, receiving and distributing authenticators, and revoking authenticators.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "IA-2", "IA-4", "IA-8"],
+      "importance": "Critical for ensuring secure management of authentication credentials and preventing unauthorized access.",
+      "mitigationSuggestions": [
+        "Implement secure password policies",
+        "Use secure distribution methods for authenticators",
+        "Maintain authenticator lifecycle management",
+        "Regularly review and update authenticator policies"
+      ],
+      "assessmentProcedures": [
+        "Review authenticator management policies",
+        "Check authenticator distribution procedures",
+        "Verify authenticator revocation processes",
+        "Review authenticator storage security"
+      ],
+      "requiredArtifacts": [
+        "Authenticator management policy",
+        "Password policy documentation",
+        "STIG checklist results",
+        "Authenticator distribution records",
+        "Revocation procedures documentation"
+      ],
+      "commentary": "The purpose of this control is the management and secure distribution of initial application authenticators. These initial authenticators include passwords for authorized users, service accounts and interface partners and PKI issued certificates for servers, devices and interface partners. Application authenticators typically include the EDIPI, Common Name, Principal Name taken from the token and associated with an individual's unique application account. For those applications that have not implemented MFA, the authentication is the unique application username and the secure initial distribution of the password. The focus of this control is the application's designed response to conditions associated with the token being revoked, expired, modified, reissued, etc. In addition, the process and procedure to distribute the application authenticator to the individual user. This process may be documented in the System Security Plan, Access Control Plan, User Rules of Behavior, and/or a separate program policy."
+    },
+    "IA-7": {
+      "id": "IA-7",
+      "family": "IA",
+      "title": "Cryptographic Module Authentication",
+      "description": "The information system implements mechanisms for authenticating to cryptographic modules.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-3", "IA-2", "IA-3", "IA-4", "IA-5"],
+      "importance": "Critical for ensuring secure access to cryptographic modules and protecting sensitive data.",
+      "mitigationSuggestions": [
+        "Implement FIPS-140 compliant cryptographic modules",
+        "Use secure authentication mechanisms",
+        "Maintain cryptographic module access logs",
+        "Regularly review cryptographic module security"
+      ],
+      "assessmentProcedures": [
+        "Review cryptographic module authentication mechanisms",
+        "Check FIPS-140 compliance",
+        "Verify access control implementation",
+        "Review security documentation"
+      ],
+      "requiredArtifacts": [
+        "Cryptographic module documentation",
+        "FIPS-140 validation certificates",
+        "STIG checklist results",
+        "Access control documentation",
+        "Security policy documentation"
+      ],
+      "commentary": "Authentication mechanisms may be required within a cryptographic module to authenticate an operator accessing the module and to verify that the operator is authorized to assume the requested role and perform services within that role. This control can be N/A if the information system (IS) is not required to provide authenticated access to any cryptographic modules to meet its legal requirements. This is heavily dependent on the data types (ie. Sensitive data) which are being utilized within the IS. Databases and PII data require FIPS-140 compliance. Check http://csrc.nist.gov/groups/STM/cmvp/documents/140-1/140val-all.htm for approved cryptographic modules."
+    },
+    "IA-8": {
+      "id": "IA-8",
+      "family": "IA",
+      "title": "Identification and Authentication (Non-Organizational Users)",
+      "description": "The information system uniquely identifies and authenticates non-organizational users (or processes acting on behalf of non-organizational users).",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "IA-2", "IA-4", "IA-5"],
+      "importance": "Critical for ensuring secure access for external users and maintaining system security.",
+      "mitigationSuggestions": [
+        "Implement secure authentication for external users",
+        "Use federated identity management",
+        "Maintain external user access logs",
+        "Regularly review external user access"
+      ],
+      "assessmentProcedures": [
+        "Review external user authentication mechanisms",
+        "Check external user access policies",
+        "Verify external user management processes",
+        "Review external user access logs"
+      ],
+      "requiredArtifacts": [
+        "External user authentication policy",
+        "External user management documentation",
+        "STIG checklist results",
+        "Access logs",
+        "Security documentation"
+      ],
+      "commentary": "Non-organizational users include information system users other than organizational users explicitly covered by IA-2. These individuals are uniquely identified and authenticated for accesses other than those accesses explicitly identified and documented in AC-14. This control can be N/A if the information system does not grant access to non-organizational users."
+    }
+  }
+} 

@@ -1,0 +1,209 @@
+{
+  "AC": {
+    "AC-1": {
+      "id": "AC-1",
+      "family": "AC",
+      "title": "Policy and Procedures",
+      "description": "Establish and maintain access control policy and procedures.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Access control policies establish the foundation for managing and restricting system access to authorized users and processes.",
+      "mitigationSuggestions": [
+        "Develop comprehensive access control policies",
+        "Define procedures for account management",
+        "Establish access enforcement requirements",
+        "Document information flow control",
+        "Review and update policies annually"
+      ],
+      "assessmentProcedures": [
+        "Review access control policies",
+        "Verify access control procedures are documented",
+        "Ensure access management controls are defined"
+      ],
+      "requiredArtifacts": [
+        "Comprehensive access control policies",
+        "Documentation of access management procedures",
+        "Evidence of policy review and updates"
+      ]
+    },
+    "AC-2": {
+      "id": "AC-2",
+      "family": "AC",
+      "title": "Account Management",
+      "description": "The organization manages information system accounts, including establishing, activating, modifying, reviewing, disabling, and removing accounts.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-3", "AC-4", "AC-5", "AC-6", "AC-17", "AC-19", "AC-20", "AU-2", "AU-12", "IA-2", "IA-4", "IA-5", "IA-8", "MA-3", "MA-5", "PE-2", "PL-4", "SC-7"],
+      "importance": "The purpose of account management is to establish the rules and processes for creating, maintaining, and controlling access to applications and resources for means of protecting systems and information.",
+      "mitigationSuggestions": [
+        "Define account types and their conditions of use",
+        "Establish processes for account creation, modification, and termination",
+        "Implement automated account management where possible",
+        "Define account monitoring processes",
+        "Implement access authorization processes"
+      ],
+      "assessmentProcedures": [
+        "Review account management policies and procedures",
+        "Verify account types are defined and documented",
+        "Ensure appropriate account authorization processes exist",
+        "Validate account creation, modification, and termination procedures",
+        "Examine account monitoring and review processes"
+      ],
+      "requiredArtifacts": [
+        "Documentation of information system account types",
+        "Account management policies and procedures",
+        "Representative sampling of account authorization forms",
+        "Account management audit trails",
+        "Evidence of account reviews"
+      ]
+    },
+    "AC-3": {
+      "id": "AC-3",
+      "family": "AC",
+      "title": "Access Enforcement",
+      "description": "The information system enforces approved authorizations for logical access to information and system resources in accordance with applicable access control policies.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-4", "AC-5", "AC-6", "AC-16", "AC-17", "AC-18", "AC-19", "AC-20", "AC-21", "AC-22", "AU-9", "CM-5", "CM-6", "CM-11", "MA-3", "MA-4", "MA-5", "PE-3"],
+      "importance": "Access enforcement mechanisms implement the organization's access control policy to ensure only authorized users can access resources with the appropriate levels of privileges.",
+      "mitigationSuggestions": [
+        "Implement role-based access controls",
+        "Configure least privilege access for all accounts",
+        "Enforce separation of duties",
+        "Implement access control lists (ACLs)",
+        "Utilize mandatory access controls where appropriate"
+      ],
+      "assessmentProcedures": [
+        "Verify access control mechanisms are properly implemented",
+        "Test application-level roles and permissions",
+        "Validate separation of duties enforcement",
+        "Ensure least privilege principles are applied"
+      ],
+      "requiredArtifacts": [
+        "Documentation of roles/permissions implementation",
+        "Evidence of least privilege enforcement",
+        "Results of application-level testing of roles/permissions",
+        "STIG/SRG compliance documentation"
+      ]
+    },
+    "AC-5": {
+      "id": "AC-5",
+      "family": "AC",
+      "title": "Separation of Duties",
+      "description": "The organization separates duties of individuals as necessary to prevent malevolent activity without collusion; documents separation of duties; and implements separation of duties through assigned information system access authorizations.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "AC-6", "PE-3", "PE-4", "PS-2"],
+      "importance": "Separation of duties prevents conflicts of interest among job functions and ensures that no individual has excessive privileges that could result in unauthorized data modification, fraud, or abuse.",
+      "mitigationSuggestions": [
+        "Define duties that require separation",
+        "Document roles and responsibilities",
+        "Configure access controls to enforce separation",
+        "Implement workflow approvals requiring multiple parties",
+        "Regularly review separation of duties implementation"
+      ],
+      "assessmentProcedures": [
+        "Review separation of duties documentation",
+        "Verify roles are appropriately separated",
+        "Test access controls enforcing separation",
+        "Validate process workflows requiring multiple approvals"
+      ],
+      "requiredArtifacts": [
+        "Signed and dated access control policy documenting separation of duties",
+        "Documentation of information system duties and associated roles",
+        "Evidence showing implementation of separation of duties",
+        "Representative sampling of access requests demonstrating separation of duties"
+      ]
+    },
+    "AC-6": {
+      "id": "AC-6",
+      "family": "AC",
+      "title": "Least Privilege",
+      "description": "The organization employs the principle of least privilege, allowing only authorized accesses for users (or processes acting on behalf of users) which are necessary to accomplish assigned tasks in accordance with organizational missions and business functions.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "AC-5", "CM-6", "CM-7", "PL-2"],
+      "importance": "Least privilege ensures that users and processes operate with the minimal level of access rights needed to perform their duties, reducing the risk of unauthorized access or activities.",
+      "mitigationSuggestions": [
+        "Document required privileges for each role and function",
+        "Implement role-based access controls",
+        "Restrict privileged account usage",
+        "Regularly review privileged access assignments",
+        "Implement just-in-time privileged access"
+      ],
+      "assessmentProcedures": [
+        "Review least privilege policy implementation",
+        "Verify roles have appropriate minimal privileges",
+        "Test enforcement of least privilege access",
+        "Examine privileged account usage monitoring"
+      ],
+      "requiredArtifacts": [
+        "Signed and dated access control policy documenting least privilege implementation",
+        "Documentation of roles, duties, and minimum required privileges",
+        "Evidence of least privilege enforcement",
+        "Access control audit trails showing appropriate privilege assignment"
+      ]
+    },
+    "AC-12": {
+      "id": "AC-12",
+      "family": "AC",
+      "title": "Session Termination",
+      "description": "The information system automatically terminates a user session after a defined condition.",
+      "priority": "P2",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["AC-11", "SC-10"],
+      "importance": "Automatic session termination ensures that access control is maintained by preventing session piggybacking/hijacking due to inactive sessions and ensuring only users with currently valid system access are allowed.",
+      "mitigationSuggestions": [
+        "Implement idle session timeout mechanisms",
+        "Configure automatic disconnection of inactive sessions",
+        "Define conditions that trigger session termination",
+        "Ensure consistent session termination across applications",
+        "Test session termination functionality regularly"
+      ],
+      "assessmentProcedures": [
+        "Review session termination configurations",
+        "Test automatic session timeout functionality",
+        "Verify session termination under specified conditions",
+        "Validate compliance with DoD STIG guidance"
+      ],
+      "requiredArtifacts": [
+        "Documentation of conditions/trigger events for automatic session disconnection",
+        "Configuration settings for session timeout and termination",
+        "Evidence of testing session termination functionality",
+        "STIG/SRG compliance documentation"
+      ]
+    },
+    "AC-17": {
+      "id": "AC-17",
+      "family": "AC",
+      "title": "Remote Access",
+      "description": "The organization establishes and documents usage restrictions, configuration/connection requirements, and implementation guidance for each type of remote access allowed; and authorizes remote access to the information system prior to allowing such connections.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-2", "AC-3", "AC-18", "AC-19", "AC-20", "CA-3", "CA-7", "CM-8", "IA-2", "IA-3", "IA-8", "MA-4", "PE-17", "PL-4", "SC-10", "SI-4"],
+      "importance": "Remote access controls are essential for protecting systems from unauthorized external access while providing secure connectivity for authorized remote users.",
+      "mitigationSuggestions": [
+        "Define remote access methods and their security requirements",
+        "Implement strong authentication for remote access",
+        "Establish secure connection mechanisms (VPN, SSH)",
+        "Monitor and log all remote access sessions",
+        "Regularly review and update remote access controls"
+      ],
+      "assessmentProcedures": [
+        "Review remote access policies and procedures",
+        "Verify documentation of approved remote access methods",
+        "Test implementation of remote access controls",
+        "Validate authorization processes for remote access"
+      ],
+      "requiredArtifacts": [
+        "Signed access control policies with remote access section",
+        "Documentation of usage restrictions for remote access",
+        "Configuration/connection requirements documentation",
+        "Network diagrams showing remote access capability",
+        "Remote access authorization evidence",
+        "User agreements for remote access"
+      ]
+    }
+  }
+}

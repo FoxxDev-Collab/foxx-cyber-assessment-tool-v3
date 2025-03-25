@@ -1,0 +1,94 @@
+{
+  "IR": {
+    "IR-1": {
+      "id": "IR-1",
+      "family": "IR",
+      "title": "Incident Response Policy and Procedures",
+      "description": "The organization develops, documents, and disseminates incident response policy and procedures.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Critical for ensuring consistent and effective response to security incidents across the organization.",
+      "mitigationSuggestions": [
+        "Develop comprehensive incident response policies",
+        "Establish clear incident response procedures",
+        "Regularly review and update policies",
+        "Train staff on incident response procedures"
+      ],
+      "assessmentProcedures": [
+        "Review incident response policy documentation",
+        "Verify policy dissemination methods",
+        "Check policy review and update procedures",
+        "Evaluate staff training records"
+      ],
+      "requiredArtifacts": [
+        "Incident Response Policy",
+        "Incident Response Procedures",
+        "Training records",
+        "Policy review documentation",
+        "Dissemination records"
+      ],
+      "commentary": "The incident response policy and procedures are essential documents that address purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance. Policies and procedures should be reviewed and updated periodically to reflect changes in requirements and lessons learned."
+    },
+    "IR-2": {
+      "id": "IR-2",
+      "family": "IR",
+      "title": "Incident Response Training",
+      "description": "The organization provides incident response training to information system users consistent with assigned roles and responsibilities.",
+      "priority": "P2",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AT-3", "CP-3", "IR-3", "IR-8"],
+      "importance": "Essential for ensuring personnel are prepared to respond effectively to security incidents.",
+      "mitigationSuggestions": [
+        "Develop role-based training programs",
+        "Conduct regular training sessions",
+        "Include hands-on exercises",
+        "Update training based on incident trends"
+      ],
+      "assessmentProcedures": [
+        "Review training program content",
+        "Check training completion records",
+        "Verify training effectiveness",
+        "Evaluate training updates"
+      ],
+      "requiredArtifacts": [
+        "Training materials",
+        "Training attendance records",
+        "Training effectiveness assessments",
+        "Training program updates",
+        "Role-specific training plans"
+      ],
+      "commentary": "Incident response training is a critical component of the incident response capability and is provided to information system users consistent with assigned roles and responsibilities. Training should include both theoretical and practical exercises to maintain knowledge and skills."
+    },
+    "IR-8": {
+      "id": "IR-8",
+      "family": "IR",
+      "title": "Incident Response Plan",
+      "description": "The organization develops an incident response plan that provides the organization with a roadmap for implementing its incident response capability.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["MP-2", "MP-4", "MP-5"],
+      "importance": "Critical for ensuring organized and effective response to security incidents.",
+      "mitigationSuggestions": [
+        "Develop comprehensive incident response plan",
+        "Include all required plan elements",
+        "Regularly review and update plan",
+        "Distribute plan to relevant stakeholders"
+      ],
+      "assessmentProcedures": [
+        "Review incident response plan content",
+        "Check plan distribution methods",
+        "Verify plan update procedures",
+        "Evaluate stakeholder access"
+      ],
+      "requiredArtifacts": [
+        "Incident Response Plan",
+        "Plan distribution records",
+        "Plan review documentation",
+        "Stakeholder acknowledgments",
+        "Plan update history"
+      ],
+      "commentary": "The incident response plan is a formal document that provides the organization with a roadmap for implementing its incident response capability. The plan should address purpose, scope, roles, responsibilities, and coordination among organizational entities. It should be reviewed and updated regularly to ensure it remains current and effective."
+    }
+  }
+} 

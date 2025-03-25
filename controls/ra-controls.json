@@ -1,0 +1,154 @@
+{
+  "RA": {
+    "RA-1": {
+      "id": "RA-1",
+      "family": "RA",
+      "title": "Risk Assessment Policy and Procedures",
+      "description": "The organization develops, disseminates, and reviews/updates at least annually a formal, documented risk assessment policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance; and formal, documented procedures to facilitate the implementation of the risk assessment policy and associated risk assessment controls.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PL-2"],
+      "importance": "Critical for establishing a consistent and effective approach to risk assessment across the organization.",
+      "mitigationSuggestions": [
+        "Develop comprehensive risk assessment policies",
+        "Establish clear risk assessment procedures",
+        "Regularly review and update documentation",
+        "Train staff on risk assessment procedures"
+      ],
+      "assessmentProcedures": [
+        "Review risk assessment policy and procedures",
+        "Verify annual review and updates",
+        "Check policy scope and requirements",
+        "Confirm procedure implementation"
+      ],
+      "requiredArtifacts": [
+        "Risk assessment policy",
+        "Risk assessment procedures",
+        "Policy review documentation",
+        "Training materials",
+        "Implementation evidence"
+      ],
+      "commentary": "Risk assessment policies and procedures are foundational for an organization's risk management program. They provide the framework for identifying, evaluating, and addressing security risks systematically."
+    },
+    "RA-2": {
+      "id": "RA-2",
+      "family": "RA",
+      "title": "Security Categorization",
+      "description": "The organization categorizes information and the information system in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance; and documents the security categorization results (including supporting rationale) in the security plan for the information system.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CM-8", "MP-4", "RA-3", "SC-7"],
+      "importance": "Essential for determining appropriate security controls based on system and information sensitivity.",
+      "mitigationSuggestions": [
+        "Implement systematic categorization process",
+        "Document categorization decisions",
+        "Review categorizations periodically",
+        "Update security plans accordingly"
+      ],
+      "assessmentProcedures": [
+        "Review security categorization methodology",
+        "Verify categorization documentation",
+        "Check compliance with standards",
+        "Evaluate supporting rationale"
+      ],
+      "requiredArtifacts": [
+        "Security categorization documentation",
+        "System security plans",
+        "Categorization methodology",
+        "Impact analysis results",
+        "Review records"
+      ],
+      "commentary": "Security categorization is crucial for ensuring appropriate security controls are selected and implemented based on the sensitivity and criticality of the information and systems."
+    },
+    "RA-3": {
+      "id": "RA-3",
+      "family": "RA",
+      "title": "Risk Assessment",
+      "description": "The organization conducts assessments of the risk and magnitude of harm that could result from the unauthorized access, use, disclosure, disruption, modification, or destruction of information and information systems that support the operations and assets of the organization.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["RA-2", "PM-9", "SI-5"],
+      "importance": "Critical for understanding and addressing potential security risks to the organization.",
+      "mitigationSuggestions": [
+        "Conduct regular risk assessments",
+        "Document assessment methodology",
+        "Maintain risk register",
+        "Update assessments when changes occur"
+      ],
+      "assessmentProcedures": [
+        "Review risk assessment methodology",
+        "Verify assessment completeness",
+        "Check risk documentation",
+        "Evaluate mitigation strategies"
+      ],
+      "requiredArtifacts": [
+        "Risk assessment reports",
+        "Assessment methodology",
+        "Risk register",
+        "Mitigation plans",
+        "Update documentation"
+      ],
+      "commentary": "Risk assessments provide the foundation for the organization's risk management strategy and help prioritize security investments based on potential impact and likelihood of threats."
+    },
+    "RA-4": {
+      "id": "RA-4",
+      "family": "RA",
+      "title": "Risk Assessment Update",
+      "description": "The organization updates the risk assessment at least annually or whenever there are significant changes to the information system or environment of operation (including the identification of new threats and vulnerabilities), or other conditions that may impact the security state of the system.",
+      "priority": "P2",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["RA-3", "PM-9", "SI-5"],
+      "importance": "Essential for maintaining current understanding of organizational risk posture.",
+      "mitigationSuggestions": [
+        "Establish update triggers",
+        "Document changes affecting risk",
+        "Review risk assessments regularly",
+        "Update mitigation strategies"
+      ],
+      "assessmentProcedures": [
+        "Verify assessment update frequency",
+        "Check change documentation",
+        "Review update triggers",
+        "Evaluate update process"
+      ],
+      "requiredArtifacts": [
+        "Risk assessment updates",
+        "Change documentation",
+        "Review records",
+        "Update triggers list",
+        "Process documentation"
+      ],
+      "commentary": "Regular updates to risk assessments ensure that security measures remain appropriate and effective as systems and threats evolve."
+    },
+    "RA-5": {
+      "id": "RA-5",
+      "family": "RA",
+      "title": "Vulnerability Scanning",
+      "description": "The organization scans for vulnerabilities in the information system and hosted applications at least annually and when new vulnerabilities potentially affecting the system are identified and reported; employs vulnerability scanning tools and techniques; analyzes vulnerability scan reports; and remediates legitimate vulnerabilities.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CA-2", "CA-7", "CM-8", "RA-3", "SA-11", "SI-2"],
+      "importance": "Critical for identifying and addressing system vulnerabilities before they can be exploited.",
+      "mitigationSuggestions": [
+        "Implement regular scanning schedule",
+        "Use multiple scanning tools",
+        "Prioritize vulnerability remediation",
+        "Monitor scanning effectiveness"
+      ],
+      "assessmentProcedures": [
+        "Review scanning procedures",
+        "Verify scanning frequency",
+        "Check remediation process",
+        "Evaluate scanning tools"
+      ],
+      "requiredArtifacts": [
+        "Vulnerability scanning results",
+        "Scanning procedures",
+        "Remediation plans",
+        "Tool configurations",
+        "Scanning schedule"
+      ],
+      "commentary": "Vulnerability scanning is a key component of continuous monitoring and helps organizations identify and address security weaknesses before they can be exploited by threats."
+    }
+  }
+} 

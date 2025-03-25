@@ -1,0 +1,263 @@
+{
+  "SI": {
+    "SI-2": {
+      "id": "SI-2",
+      "family": "SI",
+      "title": "Flaw Remediation",
+      "description": "The organization identifies, reports, and corrects information system flaws; tests software and firmware updates related to flaw remediation for effectiveness and potential side effects before installation; installs security-relevant software and firmware updates within the defined time period of release of the updates; and incorporates flaw remediation into the organizational configuration management process.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CM-3", "CM-5", "CM-8", "MA-2", "SI-11"],
+      "importance": "Critical for protecting systems from known vulnerabilities and implementing security updates in a timely manner.",
+      "mitigationSuggestions": [
+        "Implement automated vulnerability scanning",
+        "Establish patch management procedures",
+        "Test updates before deployment",
+        "Document flaw remediation process",
+        "Integrate with configuration management"
+      ],
+      "assessmentProcedures": [
+        "Review flaw identification documentation",
+        "Verify reporting procedures",
+        "Examine patch management processes",
+        "Validate testing procedures",
+        "Confirm update timeframes adherence"
+      ],
+      "requiredArtifacts": [
+        "Documentation identifying information system flaws",
+        "Flaw identification process documentation",
+        "Reports of information system flaws",
+        "Testing process logs",
+        "Firmware testing documentation",
+        "Update implementation evidence"
+      ],
+      "commentary": "Identifying information systems affected by announced software flaws including potential vulnerabilities resulting from those flaws and reporting this information to designated organizational personnel with information security responsibilities."
+    },
+    "SI-3": {
+      "id": "SI-3",
+      "family": "SI",
+      "title": "Malicious Code Protection",
+      "description": "The organization employs malicious code protection mechanisms at information system entry and exit points to detect and eradicate malicious code; updates malicious code protection mechanisms whenever new releases are available; and configures mechanisms to perform periodic scans and real-time scans of files from external sources.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CM-3", "SC-7", "SC-26", "SC-44", "SI-2", "SI-4", "SI-7"],
+      "importance": "Essential for protecting systems from viruses, worms, Trojans, and other forms of malicious code that can compromise system security.",
+      "mitigationSuggestions": [
+        "Implement antivirus software at entry/exit points",
+        "Configure real-time scanning",
+        "Maintain updated malware definitions",
+        "Enable automated alerts",
+        "Document protection mechanisms"
+      ],
+      "assessmentProcedures": [
+        "Review malicious code protection implementation",
+        "Verify signature updates",
+        "Examine scanning configurations",
+        "Validate automated response mechanisms",
+        "Confirm real-time scanning of external files"
+      ],
+      "requiredArtifacts": [
+        "System security plan documenting protection mechanisms",
+        "Topology/architecture documentation",
+        "Configuration management policies/procedures",
+        "Records of actions initiated by protection mechanisms",
+        "Protection mechanism update records",
+        "Scan results from protection mechanisms"
+      ],
+      "commentary": "Malicious code protection refers to the measures and techniques employed to safeguard computer systems and networks from various forms of harmful software, often referred to as malware."
+    },
+    "SI-4": {
+      "id": "SI-4",
+      "family": "SI",
+      "title": "Information System Monitoring",
+      "description": "The organization monitors the information system to detect attacks and indicators of potential attacks, unauthorized local, network, and remote connections, and identifies unauthorized use of the information system.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-3", "AC-4", "AC-8", "AC-17", "AU-2", "AU-6", "IR-4", "PE-3", "RA-5", "SC-7"],
+      "importance": "Critical for detecting security violations, identifying unauthorized access, and monitoring system performance and security posture.",
+      "mitigationSuggestions": [
+        "Implement intrusion detection systems",
+        "Deploy network monitoring tools",
+        "Establish monitoring procedures",
+        "Configure automated alerts",
+        "Protect monitoring data from modification"
+      ],
+      "assessmentProcedures": [
+        "Review monitoring policies and implementation",
+        "Verify detection of attacks and indicators",
+        "Examine logs of unauthorized connections",
+        "Validate protection of monitoring information",
+        "Confirm compliance with legal requirements"
+      ],
+      "requiredArtifacts": [
+        "Monitoring policy documentation",
+        "Test scripts for validating detection capabilities",
+        "Audit trail reviews",
+        "Analysis of detected events",
+        "Raw audit logs",
+        "Monitoring device deployment documentation"
+      ],
+      "commentary": "This control is a hybrid of both documentation and manual testing. The perspective and scope should include both external monitoring (system perimeter), along with internal monitoring (application, OS, DB, etc.)."
+    },
+    "SI-5": {
+      "id": "SI-5",
+      "family": "SI",
+      "title": "Security Alerts, Advisories, and Directives",
+      "description": "The organization receives information system security alerts, advisories, and directives from designated external organizations on an ongoing basis; generates internal security alerts, advisories, and directives as deemed necessary; disseminates security alerts, advisories, and directives to defined personnel; and implements security directives in accordance with established time frames.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["SI-2", "SI-3", "SI-7"],
+      "importance": "Essential for maintaining awareness of emerging threats and vulnerabilities and implementing appropriate security measures.",
+      "mitigationSuggestions": [
+        "Subscribe to external security advisory services",
+        "Establish processes for receiving alerts",
+        "Develop internal advisory distribution mechanisms",
+        "Document implementation timeframes",
+        "Maintain notification recipient lists"
+      ],
+      "assessmentProcedures": [
+        "Review alert and advisory receipt processes",
+        "Verify internal notification generation",
+        "Examine distribution procedures",
+        "Validate implementation of security directives",
+        "Confirm notification recipient authorization"
+      ],
+      "requiredArtifacts": [
+        "System security plan with security notification references",
+        "Logs of received security alerts and advisories",
+        "Samples of internal notifications",
+        "Distribution lists for security notifications",
+        "Implementation timeframe documentation"
+      ],
+      "commentary": "Security alerts, advisories, and directives provide timely and relevant information to individuals and organizations about potential security threats, vulnerabilities, and recommended actions to mitigate risks."
+    },
+    "SI-7": {
+      "id": "SI-7",
+      "family": "SI",
+      "title": "Software, Firmware, and Information Integrity",
+      "description": "The organization employs integrity verification tools to detect unauthorized changes to software, firmware, and information.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["SA-12", "SC-8", "SC-13", "SI-3"],
+      "importance": "Critical for ensuring that software, firmware, and information have not been altered through unauthorized means.",
+      "mitigationSuggestions": [
+        "Implement hash verification mechanisms",
+        "Use digital signatures",
+        "Deploy file integrity monitoring",
+        "Establish secure distribution channels",
+        "Conduct regular integrity checks"
+      ],
+      "assessmentProcedures": [
+        "Review integrity verification implementation",
+        "Verify detection of unauthorized changes",
+        "Examine integrity checking records",
+        "Validate response to integrity violations",
+        "Confirm protection of integrity tools"
+      ],
+      "requiredArtifacts": [
+        "System security plan with integrity verification references",
+        "Implementation documentation for integrity tools",
+        "Records of integrity verification",
+        "Evidence of unauthorized change detection",
+        "Integrity scan records"
+      ],
+      "commentary": "Checking software, firmware, and information integrity is essential for maintaining a secure and reliable system through techniques such as hash verification, digital signatures, and code signing."
+    },
+    "SI-10": {
+      "id": "SI-10",
+      "family": "SI",
+      "title": "Information Input Validation",
+      "description": "The information system checks the validity of information inputs.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["SI-2", "SI-3", "SI-5", "SI-11"],
+      "importance": "Essential for preventing injection attacks, buffer overflows, and other input-based vulnerabilities.",
+      "mitigationSuggestions": [
+        "Implement input validation for all system inputs",
+        "Validate format, content, and syntax",
+        "Use parameterized queries",
+        "Enforce strong typing",
+        "Document validation requirements"
+      ],
+      "assessmentProcedures": [
+        "Review input validation implementation",
+        "Verify validation of organization-defined inputs",
+        "Examine automated code scan results",
+        "Validate manual test case execution",
+        "Confirm STIG compliance"
+      ],
+      "requiredArtifacts": [
+        "System security plan with input validation description",
+        "List of all system inputs requiring validation",
+        "Automated code scan results",
+        "Manual test cases and results",
+        "Analysis of validation findings"
+      ],
+      "commentary": "Input validation is the process of testing input received by the application for compliance against a standard defined within the application."
+    },
+    "SI-11": {
+      "id": "SI-11",
+      "family": "SI",
+      "title": "Error Handling",
+      "description": "The information system generates error messages that provide information necessary for corrective actions without revealing information that could be exploited by adversaries; and reveals error messages only to defined personnel or roles.",
+      "priority": "P2",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["SI-2", "SI-10"],
+      "importance": "Critical for preventing information leakage through error messages while maintaining useful diagnostic information.",
+      "mitigationSuggestions": [
+        "Implement secure error handling mechanisms",
+        "Sanitize error messages",
+        "Restrict error message visibility",
+        "Log detailed errors internally only",
+        "Define authorized error recipients"
+      ],
+      "assessmentProcedures": [
+        "Review error handling implementation",
+        "Verify error message content",
+        "Examine error message distribution",
+        "Validate manual test case execution",
+        "Confirm compliance with STIGs"
+      ],
+      "requiredArtifacts": [
+        "System security plan with error handling description",
+        "Manual test cases and results",
+        "Configuration settings documentation",
+        "Automated code scan results",
+        "Analysis of error handling findings"
+      ],
+      "commentary": "Error handling is the process of responding to and recovering from error conditions in a program while ensuring security by not revealing sensitive information."
+    },
+    "SI-15": {
+      "id": "SI-15",
+      "family": "SI",
+      "title": "Information Output Filtering",
+      "description": "The information system validates information output from software programs and/or applications to ensure that the information is consistent with the expected content.",
+      "priority": "P2",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["SI-3", "SI-4", "SI-10", "SI-11"],
+      "importance": "Essential for preventing unintended information disclosure through output channels.",
+      "mitigationSuggestions": [
+        "Implement output validation mechanisms",
+        "Filter sensitive information",
+        "Verify output consistency",
+        "Establish output format standards",
+        "Monitor output anomalies"
+      ],
+      "assessmentProcedures": [
+        "Review output filtering implementation",
+        "Verify validation of information output",
+        "Examine manual test case execution",
+        "Validate STIG compliance",
+        "Confirm output consistency"
+      ],
+      "requiredArtifacts": [
+        "System security plan defining software programs for output validation",
+        "Output configuration documentation",
+        "Manual test cases and results",
+        "Output validation findings",
+        "STIG compliance evidence"
+      ],
+      "commentary": "Information output filtering focuses on detecting extraneous content, preventing such extraneous content from being displayed, and alerting monitoring tools that anomalous behavior has been discovered."
+    }
+  }
+} 

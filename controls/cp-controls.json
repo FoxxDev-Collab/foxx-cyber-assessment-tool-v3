@@ -1,0 +1,126 @@
+{
+  "CP": {
+    "CP-1": {
+      "id": "CP-1",
+      "family": "CP",
+      "title": "Contingency Planning Policy and Procedures",
+      "description": "The organization develops, documents, and disseminates to designated personnel, a contingency planning policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance; and procedures to facilitate the implementation of the contingency planning policy and associated contingency planning controls.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Contingency planning policies establish the foundation for maintaining system and organizational operational resilience in the face of disruptions, disasters, or system failures.",
+      "mitigationSuggestions": [
+        "Develop comprehensive contingency planning policies",
+        "Define procedures for business continuity planning",
+        "Establish disaster recovery requirements and processes",
+        "Document backup and restoration procedures",
+        "Review and update policies annually"
+      ],
+      "assessmentProcedures": [
+        "Review contingency planning policies",
+        "Verify contingency planning procedures are documented",
+        "Ensure roles and responsibilities are defined",
+        "Validate policy review and update processes"
+      ],
+      "requiredArtifacts": [
+        "Comprehensive contingency planning policy",
+        "Documentation of contingency planning procedures",
+        "Evidence of policy review and updates",
+        "Training materials for contingency procedures"
+      ]
+    },
+    "CP-2": {
+      "id": "CP-2",
+      "family": "CP",
+      "title": "Contingency Plan",
+      "description": "The organization develops a contingency plan for the information system that identifies essential missions and business functions; provides recovery objectives, restoration priorities, and metrics; addresses contingency roles, responsibilities, and emergency contacts; addresses eventual, full information system restoration without deterioration of the security safeguards; and is reviewed and approved by designated officials.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CP-3", "CP-4", "CP-6", "CP-7", "CP-8", "CP-9", "CP-10", "IR-4", "IR-8", "MP-2", "MP-4", "MP-5", "PM-8", "PM-11"],
+      "importance": "A comprehensive contingency plan ensures the organization can continue essential missions and business functions with minimal disruption in the event of an emergency or system failure.",
+      "mitigationSuggestions": [
+        "Identify and document critical business functions",
+        "Establish recovery objectives and priorities",
+        "Define contingency roles and responsibilities",
+        "Document recovery and restoration procedures",
+        "Coordinate contingency plan with incident response"
+      ],
+      "assessmentProcedures": [
+        "Review contingency plan documentation",
+        "Verify essential missions and functions are identified",
+        "Validate recovery objectives and metrics",
+        "Assess contingency roles and contact information",
+        "Examine restoration procedures and security safeguards"
+      ],
+      "requiredArtifacts": [
+        "Signed and dated contingency plan",
+        "Documentation of essential missions and functions",
+        "Recovery objectives and restoration priorities",
+        "Contingency roles and contact information",
+        "Evidence of plan review and approval"
+      ]
+    },
+    "CP-9": {
+      "id": "CP-9",
+      "family": "CP",
+      "title": "Information System Backup",
+      "description": "The organization conducts backups of user-level information, system-level information, and system documentation contained in the information system, and protects backup information at storage locations.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CP-2", "CP-6", "MP-4", "MP-5", "SC-13"],
+      "importance": "Regular and secure system backups are critical for restoring operations after disruptions and ensuring data availability and integrity over time.",
+      "mitigationSuggestions": [
+        "Implement automated backup processes",
+        "Define appropriate backup frequency for different data types",
+        "Secure backup storage with appropriate controls",
+        "Test backup restoration regularly",
+        "Document backup and recovery procedures"
+      ],
+      "assessmentProcedures": [
+        "Review backup policies and procedures",
+        "Verify user-level information backup processes",
+        "Validate system-level information backup processes",
+        "Examine documentation backup procedures",
+        "Assess backup storage protection measures"
+      ],
+      "requiredArtifacts": [
+        "Backup policy and procedures documentation",
+        "Evidence of regular backups per defined frequency",
+        "Documentation of backup storage protection",
+        "Backup restoration test results",
+        "System configuration for backup processes"
+      ]
+    },
+    "CP-10": {
+      "id": "CP-10",
+      "family": "CP",
+      "title": "Information System Recovery and Reconstitution",
+      "description": "The organization provides for the recovery and reconstitution of the information system to a known state after a disruption, compromise, or failure.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["CA-2", "CA-6", "CA-7", "CP-2", "CP-6", "CP-7", "CP-9", "SC-24"],
+      "importance": "System recovery and reconstitution capabilities ensure that organizations can restore systems to a known secure state following disruptions, preserving both operational and security functionality.",
+      "mitigationSuggestions": [
+        "Document recovery procedures for various failure scenarios",
+        "Implement automated recovery mechanisms where possible",
+        "Define recovery time objectives (RTOs)",
+        "Test recovery procedures regularly",
+        "Ensure security controls remain effective during recovery"
+      ],
+      "assessmentProcedures": [
+        "Review recovery and reconstitution procedures",
+        "Verify existence of documented recovery methods",
+        "Test recovery to known state after simulated disruption",
+        "Validate recovery after simulated compromise",
+        "Assess recovery following simulated failure"
+      ],
+      "requiredArtifacts": [
+        "Recovery and reconstitution procedures documentation",
+        "Evidence of recovery method implementation",
+        "Recovery testing results",
+        "Documentation of automated and manual recovery capabilities",
+        "Security validation during recovery processes"
+      ]
+    }
+  }
+}

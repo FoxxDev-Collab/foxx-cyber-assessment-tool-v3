@@ -1,0 +1,94 @@
+{
+  "PE": {
+    "PE-1": {
+      "id": "PE-1",
+      "family": "PE",
+      "title": "Physical and Environmental Protection Policy and Procedures",
+      "description": "The organization develops, documents, and disseminates physical and environmental protection policies and procedures.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Critical for establishing and maintaining physical security measures to protect organizational assets.",
+      "mitigationSuggestions": [
+        "Develop comprehensive physical security policies",
+        "Establish clear environmental protection procedures",
+        "Regularly review and update policies",
+        "Train staff on physical security procedures"
+      ],
+      "assessmentProcedures": [
+        "Review physical security policy documentation",
+        "Verify policy dissemination methods",
+        "Check policy review and update procedures",
+        "Evaluate staff training records"
+      ],
+      "requiredArtifacts": [
+        "Physical Security Policy",
+        "Environmental Protection Procedures",
+        "Training records",
+        "Policy review documentation",
+        "Dissemination records"
+      ],
+      "commentary": "Physical and environmental protection policies and procedures are essential documents that address purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance. These documents should be reviewed and updated periodically to reflect changes in requirements and lessons learned."
+    },
+    "PE-2": {
+      "id": "PE-2",
+      "family": "PE",
+      "title": "Physical Access Authorizations",
+      "description": "The organization develops, approves, and maintains lists of individuals with authorized access to the facility where the information system resides.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PE-3", "PE-4", "PS-3"],
+      "importance": "Essential for controlling physical access to organizational facilities and systems.",
+      "mitigationSuggestions": [
+        "Maintain current access authorization lists",
+        "Implement formal access approval process",
+        "Regularly review access authorizations",
+        "Document access authorization changes"
+      ],
+      "assessmentProcedures": [
+        "Review access authorization lists",
+        "Check authorization approval process",
+        "Verify periodic review procedures",
+        "Evaluate access change documentation"
+      ],
+      "requiredArtifacts": [
+        "Access authorization lists",
+        "Access approval documentation",
+        "Periodic review records",
+        "Access change logs",
+        "Authorization procedures"
+      ],
+      "commentary": "Physical access authorizations are crucial for maintaining control over who has access to facilities containing information systems. Regular reviews and updates of access lists help ensure that only authorized individuals maintain access privileges."
+    },
+    "PE-3": {
+      "id": "PE-3",
+      "family": "PE",
+      "title": "Physical Access Control",
+      "description": "The organization enforces physical access authorizations at entry/exit points to the facility where the information system resides.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PE-2", "PE-4", "PE-5"],
+      "importance": "Critical for preventing unauthorized physical access to organizational facilities and systems.",
+      "mitigationSuggestions": [
+        "Implement physical access control systems",
+        "Maintain visitor access procedures",
+        "Monitor physical access points",
+        "Log physical access attempts"
+      ],
+      "assessmentProcedures": [
+        "Review physical access control mechanisms",
+        "Check visitor management procedures",
+        "Verify access monitoring systems",
+        "Evaluate access logs and records"
+      ],
+      "requiredArtifacts": [
+        "Access control system documentation",
+        "Visitor logs and procedures",
+        "Access monitoring records",
+        "Security guard procedures",
+        "Access point maintenance logs"
+      ],
+      "commentary": "Physical access control involves the implementation and maintenance of physical security measures to restrict access to authorized individuals only. This includes both automated systems and procedural controls for managing entry and exit points."
+    }
+  }
+} 

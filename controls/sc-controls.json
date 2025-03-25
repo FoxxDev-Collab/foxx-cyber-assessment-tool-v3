@@ -1,0 +1,214 @@
+{
+  "SC": {
+    "SC-1": {
+      "id": "SC-1",
+      "family": "SC",
+      "title": "System and Communications Protection Policy and Procedures",
+      "description": "The organization develops, documents, and disseminates to appropriate personnel: a system and communications protection policy that addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance; and procedures to facilitate the implementation of the system and communications protection policy and associated system and communications protection controls.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["PM-9", "PS-8", "SI-12"],
+      "importance": "Critical for establishing consistent and effective system and communications protection practices.",
+      "mitigationSuggestions": [
+        "Develop comprehensive protection policies",
+        "Establish clear protection procedures",
+        "Regularly review and update documentation",
+        "Train staff on protection procedures"
+      ],
+      "assessmentProcedures": [
+        "Review protection policy and procedures",
+        "Verify policy dissemination",
+        "Check policy review process",
+        "Confirm procedure implementation"
+      ],
+      "requiredArtifacts": [
+        "System and communications protection policy",
+        "Protection procedures",
+        "Policy review documentation",
+        "Training materials",
+        "Dissemination records"
+      ],
+      "commentary": "System and communications protection policies and procedures are essential for ensuring consistent security practices across the organization."
+    },
+    "SC-2": {
+      "id": "SC-2",
+      "family": "SC",
+      "title": "Application Partitioning",
+      "description": "The information system separates user functionality (including user interface services) from information system management functionality.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["SA-4", "SA-8", "SC-3"],
+      "importance": "Essential for preventing unauthorized access to system management functions.",
+      "mitigationSuggestions": [
+        "Implement application partitioning",
+        "Separate user and admin interfaces",
+        "Document separation mechanisms",
+        "Review partition effectiveness"
+      ],
+      "assessmentProcedures": [
+        "Review system architecture",
+        "Verify interface separation",
+        "Check access controls",
+        "Evaluate partition implementation"
+      ],
+      "requiredArtifacts": [
+        "System architecture documentation",
+        "Interface specifications",
+        "Access control documentation",
+        "Partition implementation details",
+        "Security assessment results"
+      ],
+      "commentary": "Application partitioning helps prevent users from accessing system management functionality through the separation of user and administrative interfaces."
+    },
+    "SC-3": {
+      "id": "SC-3",
+      "family": "SC",
+      "title": "Security Function Isolation",
+      "description": "The information system isolates security functions from nonsecurity functions.",
+      "priority": "P1",
+      "baseline": ["HIGH"],
+      "related": ["AC-6", "SA-4", "SA-5", "SC-2", "SC-7"],
+      "importance": "Critical for protecting security functions from compromise through isolation.",
+      "mitigationSuggestions": [
+        "Implement security function isolation",
+        "Document isolation mechanisms",
+        "Test isolation effectiveness",
+        "Monitor isolation boundaries"
+      ],
+      "assessmentProcedures": [
+        "Review isolation architecture",
+        "Verify isolation implementation",
+        "Check boundary protection",
+        "Evaluate isolation effectiveness"
+      ],
+      "requiredArtifacts": [
+        "Security architecture documentation",
+        "Isolation implementation details",
+        "Test results",
+        "Monitoring records",
+        "Security assessment reports"
+      ],
+      "commentary": "Security function isolation helps protect critical security mechanisms from compromise by maintaining separation from nonsecurity functions."
+    },
+    "SC-4": {
+      "id": "SC-4",
+      "family": "SC",
+      "title": "Information in Shared Resources",
+      "description": "The information system prevents unauthorized and unintended information transfer via shared system resources.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["AC-3", "AC-4", "SC-2"],
+      "importance": "Critical for preventing information leakage through shared resources.",
+      "mitigationSuggestions": [
+        "Implement resource clearing",
+        "Control information flow",
+        "Monitor shared resources",
+        "Document protection mechanisms"
+      ],
+      "assessmentProcedures": [
+        "Review shared resource controls",
+        "Verify clearing mechanisms",
+        "Check information flow controls",
+        "Evaluate protection effectiveness"
+      ],
+      "requiredArtifacts": [
+        "Resource protection documentation",
+        "Information flow controls",
+        "Clearing procedures",
+        "Test results",
+        "Monitoring records"
+      ],
+      "commentary": "Protection of information in shared resources is crucial for preventing unauthorized information disclosure between different users or processes."
+    },
+    "SC-5": {
+      "id": "SC-5",
+      "family": "SC",
+      "title": "Denial of Service Protection",
+      "description": "The information system protects against or limits the effects of denial of service attacks by employing security safeguards to address identified threats.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["SC-6", "SC-7"],
+      "importance": "Critical for ensuring system availability and preventing service disruptions.",
+      "mitigationSuggestions": [
+        "Implement DoS protection mechanisms",
+        "Monitor system resources",
+        "Configure rate limiting",
+        "Document incident response"
+      ],
+      "assessmentProcedures": [
+        "Review DoS protection measures",
+        "Verify monitoring capabilities",
+        "Check incident response",
+        "Evaluate protection effectiveness"
+      ],
+      "requiredArtifacts": [
+        "DoS protection documentation",
+        "Monitoring configurations",
+        "Incident response procedures",
+        "Test results",
+        "Resource utilization logs"
+      ],
+      "commentary": "Denial of service protection is essential for maintaining system availability and preventing disruption of critical services."
+    },
+    "SC-7": {
+      "id": "SC-7",
+      "family": "SC",
+      "title": "Boundary Protection",
+      "description": "The information system monitors and controls communications at the external boundary of the system and at key internal boundaries within the system; and implements subnetworks for publicly accessible system components that are physically or logically separated from internal organizational networks.",
+      "priority": "P1",
+      "baseline": ["LOW", "MODERATE", "HIGH"],
+      "related": ["AC-4", "AC-17", "CA-3", "SC-5"],
+      "importance": "Critical for protecting organizational networks from external threats.",
+      "mitigationSuggestions": [
+        "Implement boundary protection devices",
+        "Configure access controls",
+        "Monitor boundary communications",
+        "Separate public access"
+      ],
+      "assessmentProcedures": [
+        "Review boundary protection",
+        "Verify access controls",
+        "Check monitoring implementation",
+        "Evaluate network separation"
+      ],
+      "requiredArtifacts": [
+        "Network architecture documentation",
+        "Boundary device configurations",
+        "Monitoring logs",
+        "Access control policies",
+        "Security assessment results"
+      ],
+      "commentary": "Boundary protection is crucial for controlling communications and protecting internal networks from external threats and unauthorized access."
+    },
+    "SC-8": {
+      "id": "SC-8",
+      "family": "SC",
+      "title": "Transmission Confidentiality and Integrity",
+      "description": "The information system protects the confidentiality and integrity of transmitted information.",
+      "priority": "P1",
+      "baseline": ["MODERATE", "HIGH"],
+      "related": ["SC-13", "SC-23"],
+      "importance": "Critical for protecting information during transmission.",
+      "mitigationSuggestions": [
+        "Implement encryption",
+        "Use secure protocols",
+        "Monitor transmissions",
+        "Verify integrity checks"
+      ],
+      "assessmentProcedures": [
+        "Review transmission protections",
+        "Verify encryption implementation",
+        "Check integrity mechanisms",
+        "Evaluate protection effectiveness"
+      ],
+      "requiredArtifacts": [
+        "Encryption documentation",
+        "Protocol specifications",
+        "Configuration settings",
+        "Test results",
+        "Monitoring records"
+      ],
+      "commentary": "Transmission protection ensures the confidentiality and integrity of information as it moves between systems or components."
+    }
+  }
+} 
