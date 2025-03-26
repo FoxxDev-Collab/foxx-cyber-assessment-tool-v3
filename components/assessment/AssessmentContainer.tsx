@@ -15,6 +15,7 @@ export const ASSESSMENT_STORAGE_KEY = 'cyber-assessment-data';
 export interface AssessmentContainerHandle {
   saveAssessmentData: () => boolean;
   getAssessmentData: () => Record<string, { status?: string, notes?: string }>;
+  resetAssessment: () => void;
 }
 
 interface AssessmentContainerProps {
@@ -37,6 +38,16 @@ const AssessmentContainer = forwardRef<AssessmentContainerHandle, AssessmentCont
     },
     getAssessmentData: () => {
       return assessmentData;
+    },
+    resetAssessment: () => {
+      // Clear assessment data state
+      setAssessmentData({});
+      setSavedTimestamp(null);
+      
+      // Update progress
+      onProgressChange?.(0, Object.keys(controls).length);
+      
+      console.log("Assessment data has been reset");
     }
   }));
   

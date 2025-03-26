@@ -134,10 +134,10 @@ export default function TabControls({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-4 items-center mb-6">
+    <div className="space-y-4 w-full">
+      <div className="flex gap-4 items-center mb-6 w-full">
         <Input
-          className="max-w-md"
+          className="w-full"
           placeholder="Search controls..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -145,16 +145,47 @@ export default function TabControls({
       </div>
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <ScrollArea className="w-full">
-          <TabsList className="h-12 w-full mb-6 overflow-x-auto">
+        <ScrollArea className="w-full pb-2">
+          <TabsList className="h-auto min-h-12 w-full mb-6 flex-wrap">
             {families.map((family) => (
-              <TabsTrigger key={family} value={family} className="flex items-center gap-2">
+              <TabsTrigger 
+                key={family} 
+                value={family} 
+                className="flex items-center gap-2 py-2 whitespace-nowrap"
+              >
                 {family === "ALL" ? "All Controls" : (
                   <span className="font-medium uppercase">{family}</span>
                 )}
-                <Badge variant="secondary">
-                  {getCompletedCount(family)}/{getControlCount(family)}
-                </Badge>
+                {isCurrentFamilyComplete() && family !== "ALL" ? (
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="14" 
+                    height="14" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="text-green-600"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                ) : (
+                  family !== "ALL" && (
+                    <div 
+                      className="w-2 h-2 rounded-full"
+                      style={{
+                        backgroundColor: getCompletedCount(family) === 0 
+                          ? 'rgb(239, 68, 68)' // red
+                          : getCompletedCount(family) === getControlCount(family) 
+                            ? 'rgb(34, 197, 94)' // green
+                            : 'rgb(234, 179, 8)' // yellow/amber
+                      }}
+                    />
+                  )
+                )}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -164,14 +195,21 @@ export default function TabControls({
           <TabsContent key={family} value={family} className="space-y-4">
             {family !== "ALL" && (
               <div className="mb-4">
-                <h2 className="text-xl font-semibold mb-1">{getFamilyFullName(family)}</h2>
-                <p className="text-sm text-muted-foreground">
-                  {getCompletedCount(family)} of {getControlCount(family)} controls assessed
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-semibold">{getFamilyFullName(family)}</h2>
+                  <Badge variant="outline" className={getCompletedCount(family) === getControlCount(family) ? "bg-green-50 text-green-700 border-green-200" : "bg-amber-50 text-amber-700 border-amber-200"}>
+                    {getCompletedCount(family)}/{getControlCount(family)}
+                  </Badge>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {getCompletedCount(family) === getControlCount(family) 
+                    ? "All controls assessed" 
+                    : `${getCompletedCount(family)} of ${getControlCount(family)} controls assessed`}
                 </p>
               </div>
             )}
             
-            <div className="grid gap-4">
+            <div className="grid grid-cols-1 gap-4 w-full">
               {getFilteredControls(family).map((control) => (
                 <ControlCard 
                   key={control.id} 
@@ -189,7 +227,7 @@ export default function TabControls({
             )}
             
             {family !== "ALL" && (
-              <div className="flex justify-between mt-8">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-8">
                 <div>
                   {isCurrentFamilyComplete() && (
                     <div className="text-sm text-green-600 font-medium flex items-center gap-1">

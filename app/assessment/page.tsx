@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AssessmentContainer, { AssessmentContainerHandle, ASSESSMENT_STORAGE_KEY } from '../../components/assessment/AssessmentContainer';
-import { Shield, Save, CheckCircle, ArrowRight, Edit2 } from 'lucide-react';
+import { Shield, Save, CheckCircle, ArrowRight, Edit2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
@@ -26,6 +26,7 @@ export default function AssessmentPage() {
   const [totalControls, setTotalControls] = useState(0);
   const [completedControls, setCompletedControls] = useState(0);
   const [showFinishDialog, setShowFinishDialog] = useState(false);
+  const [showClearDataDialog, setShowClearDataDialog] = useState(false);
   const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error', message: string } | null>(null);
   const assessmentContainerRef = useRef<AssessmentContainerHandle>(null);
   
@@ -35,6 +36,46 @@ export default function AssessmentPage() {
   const [scope, setScope] = useState('Enterprise systems and applications');
   const [assessmentName, setAssessmentName] = useState('Security Assessment');
   const [editingMetadata, setEditingMetadata] = useState(false);
+  
+  // Function to clear all assessment data
+  const clearAllData = () => {
+    // Clear all assessment-related localStorage items
+    localStorage.removeItem('currentAssessment');
+    localStorage.removeItem('assessment-export-format');
+    localStorage.removeItem(ASSESSMENT_RESULTS_KEY);
+    localStorage.removeItem(ASSESSMENT_STORAGE_KEY);
+    
+    // Reset the form state
+    setOrganization('Acme Corporation');
+    setAssessor('Security Team');
+    setScope('Enterprise systems and applications');
+    setAssessmentName('Security Assessment');
+    setCompletedControls(0);
+    setTotalControls(0);
+    setProgress(0);
+    
+    // Reset the assessment container
+    if (assessmentContainerRef.current) {
+      assessmentContainerRef.current.resetAssessment();
+    }
+    
+    // Show success message
+    setSaveMessage({
+      type: 'success',
+      message: 'All assessment data has been cleared. Your session data has been completely removed.'
+    });
+    
+    // Close the dialog
+    setShowClearDataDialog(false);
+    
+    // Clear message after 5 seconds
+    setTimeout(() => setSaveMessage(null), 5000);
+    
+    // Refresh the page to ensure all components reload with fresh state
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
   
   // Load saved assessment details from localStorage when component mounts
   useEffect(() => {
@@ -570,7 +611,7 @@ export default function AssessmentPage() {
           )}
         </div>
         
-        <div className="flex gap-2 mt-4 sm:mt-0">
+        <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
           <Button 
             className="gap-2" 
             variant="outline"
@@ -587,6 +628,15 @@ export default function AssessmentPage() {
           >
             <CheckCircle className="h-4 w-4" />
             Finish Assessment
+          </Button>
+          
+          <Button 
+            className="gap-2" 
+            variant="destructive"
+            onClick={() => setShowClearDataDialog(true)}
+          >
+            <Trash2 className="h-4 w-4" />
+            Clear Data
           </Button>
         </div>
       </div>
@@ -606,7 +656,16 @@ export default function AssessmentPage() {
         onProgressChange={handleProgressChange} 
       />
       
-      <div className="mt-8 flex justify-end">
+      <div className="mt-8 flex justify-between">
+        <Button 
+          className="gap-2" 
+          variant="outline"
+          onClick={() => setShowClearDataDialog(true)}
+        >
+          <Trash2 className="h-4 w-4" />
+          Clear Assessment Data
+        </Button>
+        
         <Button 
           className="gap-2" 
           onClick={() => setShowFinishDialog(true)}
@@ -633,6 +692,34 @@ export default function AssessmentPage() {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleFinishAssessment}>
               Proceed to Results
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      
+      {/* Clear Data Dialog */}
+      <AlertDialog open={showClearDataDialog} onOpenChange={setShowClearDataDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-destructive">Delete All Assessment Data?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently remove all assessment data from your browser, including:
+            </AlertDialogDescription>
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>Current assessment progress</li>
+              <li>Organization and assessor information</li>
+              <li>All control evaluations and notes</li>
+              <li>Exported results and reports</li>
+            </ul>
+            <p className="mt-2 font-medium text-sm text-muted-foreground">This action cannot be undone.</p>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={clearAllData}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Yes, Delete Everything
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
