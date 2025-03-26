@@ -163,7 +163,7 @@ const HomePage = () => {
                 </svg>
               </div>
               <h3 className="text-lg font-bold mb-2 text-card-foreground">Risk Assessments</h3>
-              <p className="text-muted-foreground">Identify and evaluate potential risks to your organization's information security infrastructure.</p>
+              <p className="text-muted-foreground">Identify and evaluate potential risks to your organization&apos;s information security infrastructure.</p>
             </div>
             
             <div className="bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow h-full border border-border">
@@ -222,7 +222,7 @@ const HomePage = () => {
                 <p className="text-card-foreground italic mb-6">
                   {index === 0 && '"This tool has transformed our security posture assessment process. The visualizations make it easy to identify gaps and prioritize improvements."'}
                   {index === 1 && '"The compliance mapping feature saved us countless hours of manual work during our ISO 27001 certification process."'}
-                  {index === 2 && '"As a security consultant, this tool helps me deliver more value to my clients by providing clear, actionable recommendations."'}
+                  {index === 2 && '"As a security consultant, this tool helps me deliver more value to my clients by providing clear, actionable recommendations."'.replace("'", "&apos;")}
                 </p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">

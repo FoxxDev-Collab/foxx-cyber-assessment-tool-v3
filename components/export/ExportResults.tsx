@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import type { Control } from '../../lib/utils/controlUtils';
 import { getFamilyFullName } from '../../lib/utils/controlUtils';
 
 // Matching the v2.html export format

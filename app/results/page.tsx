@@ -2,13 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import ViewResults from '../../components/results/ViewResults';
 
+export type AssessmentData = {
+  status?: string;
+  notes?: string;
+}
+
 const ResultsPage: React.FC = () => {
   const [debugMode, setDebugMode] = useState(false);
-  const [rawData, setRawData] = useState<Record<string, any>>({});
+  const [rawData, setRawData] = useState<Record<string, Record<string, unknown>>>({});
 
   useEffect(() => {
     const checkLocalStorage = () => {
-      const data: Record<string, any> = {};
+      const data: Record<string, Record<string, unknown>> = {};
       
       // Check all potential assessment data sources
       try {
@@ -48,8 +53,8 @@ const ResultsPage: React.FC = () => {
       try {
         const formatted = JSON.parse(exportFormat);
         return JSON.stringify(formatted, null, 2);
-      } catch (error) {
-        console.error("Error parsing export format:", error);
+      } catch {
+        console.error("Error parsing export format");
         return "Error parsing export format.";
       }
     }
@@ -66,8 +71,8 @@ const ResultsPage: React.FC = () => {
         }
         
         return JSON.stringify(data, null, 2);
-      } catch (error) {
-        console.error("Error parsing current assessment:", error);
+      } catch {
+        console.error("Error parsing current assessment");
         return "Error parsing current assessment.";
       }
     }
@@ -91,7 +96,7 @@ const ResultsPage: React.FC = () => {
                   navigator.clipboard.writeText(getExportFormat())
                     .then(() => alert("Export format copied to clipboard!"))
                     .catch(() => alert("Failed to copy to clipboard."));
-                } catch (error) {
+                } catch {
                   alert("Error generating export format.");
                 }
               }}

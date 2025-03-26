@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import ControlCard from "./ControlCard"
-import type { Controls, Control } from "@/lib/utils/controlUtils"
+import type { Controls } from "@/lib/utils/controlUtils"
 
 interface TabControlsProps {
   controls: Controls;
@@ -65,7 +65,7 @@ export default function TabControls({
 
   const getFilteredControls = (family: string) => {
     if (family === "ALL") {
-      return Object.entries(controls).flatMap(([_, familyControls]) => 
+      return Object.entries(controls).flatMap(([, familyControls]) => 
         Object.values(familyControls).filter(control => 
           searchQuery === "" || 
           control.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -460,53 +460,6 @@ export default function AssessmentPage() {
     }
   };
   
-  // Format the controls by family for the expected output structure
-  const formatControlsByFamily = (assessmentData: Record<string, { status?: string, notes?: string }>) => {
-    // Create a flat controls structure that matches the example output format
-    const formattedControls: Record<string, { status: string, notes: string, score: number }> = {};
-    
-    // Process each control
-    Object.entries(assessmentData).forEach(([controlId, controlData]) => {
-      // Format the status to match the example output
-      let formattedStatus = controlData.status || 'Not Implemented';
-      
-      // Convert status to match example format (Title Case and remove hyphens)
-      switch (formattedStatus.toLowerCase()) {
-        case 'implemented':
-          formattedStatus = 'Implemented';
-          break;
-        case 'partially':
-        case 'partially-implemented':
-        case 'partial':
-          formattedStatus = 'Partially Implemented';
-          break;
-        case 'planned':
-          formattedStatus = 'Planned';
-          break;
-        case 'not-implemented':
-        case 'notimplemented':
-          formattedStatus = 'Not Implemented';
-          break;
-        case 'not-applicable':
-        case 'notapplicable':
-        case 'na':
-          formattedStatus = 'Not Applicable';
-          break;
-        default:
-          formattedStatus = 'Not Implemented';
-      }
-      
-      // Add each control directly to the controls object
-      formattedControls[controlId] = {
-        status: formattedStatus,
-        notes: controlData.notes || '',
-        score: 0 // Score is included but not used in this implementation
-      };
-    });
-    
-    return formattedControls;
-  };
-  
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
       {saveMessage && (
@@ -682,7 +635,7 @@ export default function AssessmentPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Finish Assessment?</AlertDialogTitle>
             <AlertDialogDescription>
-              You've completed {completedControls} out of {totalControls} controls ({progress}%).
+              You&apos;ve completed {completedControls} out of {totalControls} controls ({progress}%).
               {progress < 100 && " Some controls are still not assessed."}
               {"\n"}
               Are you sure you want to finish the assessment and view results?

@@ -9,10 +9,6 @@ interface AssessmentControl {
   score: number;
 }
 
-interface AssessmentControlFamily {
-  [controlId: string]: AssessmentControl;
-}
-
 interface AssessmentResult {
   id: string;
   name: string;
@@ -232,13 +228,27 @@ const ViewResults: React.FC = () => {
   };
 
   // Calculate compliance statistics
-  const calculateStats = (controls: any[]) => {
+  const calculateStats = (controls: Array<{ id: string; family: string; status: string; notes: string; evidence: string }>) => {
+    // Count controls by status
+    const statusCounts: Record<string, number> = {
+      'Implemented': 0,
+      'Partially Implemented': 0,
+      'Planned': 0,
+      'Not Implemented': 0,
+      'Not Applicable': 0
+    };
+    
+    controls.forEach(control => {
+      const normalizedStatus = normalizeStatus(control.status);
+      statusCounts[normalizedStatus]++;
+    });
+    
     const total = controls.length;
-    const implemented = controls.filter(c => normalizeStatus(c.status) === 'Implemented').length;
-    const partiallyImplemented = controls.filter(c => normalizeStatus(c.status) === 'Partially Implemented').length;
-    const planned = controls.filter(c => normalizeStatus(c.status) === 'Planned').length;
-    const notImplemented = controls.filter(c => normalizeStatus(c.status) === 'Not Implemented').length;
-    const notApplicable = controls.filter(c => normalizeStatus(c.status) === 'Not Applicable').length;
+    const implemented = statusCounts['Implemented'];
+    const partiallyImplemented = statusCounts['Partially Implemented'];
+    const planned = statusCounts['Planned'];
+    const notImplemented = statusCounts['Not Implemented'];
+    const notApplicable = statusCounts['Not Applicable'];
     
     // Calculate the implementation rate (weighted score)
     // Implemented = 100%, Partially = 50%, Planned = 25%, Not Implemented = 0%, Not Applicable = excluded
@@ -268,8 +278,8 @@ const ViewResults: React.FC = () => {
   };
 
   // Group controls by family
-  const groupControlsByFamily = (controls: any[]) => {
-    const grouped: Record<string, any[]> = {};
+  const groupControlsByFamily = (controls: Array<{ id: string; family: string; status: string; notes: string; evidence: string }>) => {
+    const grouped: Record<string, Array<{ id: string; family: string; status: string; notes: string; evidence: string }>> = {};
     controls.forEach(control => {
       const family = control.family;
       if (!grouped[family]) {

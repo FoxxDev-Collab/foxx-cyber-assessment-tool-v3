@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import type { Controls, Control } from "@/lib/utils/controlUtils"
+import type { Controls } from "@/lib/utils/controlUtils"
 
 interface AssessmentFormProps {
   controls: Controls
@@ -24,7 +24,7 @@ export default function AssessmentForm({ controls }: AssessmentFormProps) {
 
   const filteredControls = Object.entries(controls)
     .filter(([family]) => selectedFamily === 'ALL' || family === selectedFamily)
-    .flatMap(([_, familyControls]) => 
+    .flatMap(([, familyControls]) => 
       Object.values(familyControls).filter(control => 
         searchQuery === '' || 
         control.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
