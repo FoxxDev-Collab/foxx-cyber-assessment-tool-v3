@@ -1,0 +1,139 @@
+{
+    "CS": {
+      "CS-1": {
+        "id": "CS-1",
+        "family": "CS",
+        "title": "Cloud Security Policy and Procedures",
+        "description": "Establish and maintain cloud security policies and procedures for all cloud service models (IaaS, PaaS, SaaS) used by the organization.",
+        "priority": "P1",
+        "baseline": ["LOW", "MODERATE", "HIGH"],
+        "related": ["AC-1", "CM-1", "CP-1", "SA-1", "SC-1"],
+        "importance": "Cloud security policies provide the foundation for protecting systems and data in cloud environments, accounting for the unique challenges of shared responsibility and multi-tenant models.",
+        "mitigationSuggestions": [
+          "Develop comprehensive cloud security policies for each cloud service model",
+          "Define security responsibilities in cloud shared responsibility models",
+          "Establish procedures for cloud service provider assessment",
+          "Document cloud-specific security requirements",
+          "Implement cloud security architecture review processes"
+        ],
+        "assessmentProcedures": [
+          "Review cloud security policies and procedures",
+          "Verify cloud service model-specific controls",
+          "Assess shared responsibility documentation"
+        ],
+        "requiredArtifacts": [
+          "Cloud security policies and procedures",
+          "Shared responsibility documentation",
+          "Cloud service provider assessment criteria"
+        ]
+      },
+      "CS-2": {
+        "id": "CS-2",
+        "family": "CS",
+        "title": "Cloud Service Provider Assessment",
+        "description": "Assess the security capabilities, compliance status, and risk posture of cloud service providers before and during use of their services.",
+        "priority": "P1",
+        "baseline": ["MODERATE", "HIGH"],
+        "related": ["CA-2", "RA-3", "SA-9", "SA-12"],
+        "importance": "Cloud service provider assessment ensures that providers meet organizational security requirements and helps manage risks in the shared responsibility model.",
+        "mitigationSuggestions": [
+          "Develop formal cloud service provider security assessment methodology",
+          "Require evidence of compliance with relevant standards",
+          "Review provider security documentation and third-party audits",
+          "Assess provider incident response capabilities",
+          "Evaluate provider's supply chain security practices"
+        ],
+        "assessmentProcedures": [
+          "Review cloud service provider assessment methodology",
+          "Verify assessment documentation for current providers",
+          "Test assessment criteria completeness"
+        ],
+        "requiredArtifacts": [
+          "Cloud service provider assessment methodology",
+          "Completed provider assessments",
+          "Provider compliance documentation"
+        ]
+      },
+      "CS-3": {
+        "id": "CS-3",
+        "family": "CS",
+        "title": "Cloud Data Security",
+        "description": "Implement controls to protect the confidentiality, integrity, and availability of data stored, processed, or transmitted in cloud environments.",
+        "priority": "P1",
+        "baseline": ["LOW", "MODERATE", "HIGH"],
+        "related": ["AC-3", "AC-4", "MP-2", "SC-8", "SC-28"],
+        "importance": "Cloud data security controls ensure data protection throughout its lifecycle in cloud environments, accounting for the unique risks of multi-tenant storage and processing.",
+        "mitigationSuggestions": [
+          "Implement data encryption for cloud storage and transmission",
+          "Configure strong access controls for cloud data",
+          "Deploy cloud data loss prevention solutions",
+          "Establish data residency and sovereignty controls",
+          "Implement secure cloud backup and recovery mechanisms"
+        ],
+        "assessmentProcedures": [
+          "Review cloud data security controls",
+          "Test data encryption implementation",
+          "Verify data access control mechanisms"
+        ],
+        "requiredArtifacts": [
+          "Cloud data security architecture documentation",
+          "Data encryption configuration settings",
+          "Cloud access control documentation"
+        ]
+      },
+      "CS-4": {
+        "id": "CS-4",
+        "family": "CS",
+        "title": "Cloud Identity and Access Management",
+        "description": "Implement cloud-specific identity and access management controls that secure access to cloud resources while maintaining proper separation of duties.",
+        "priority": "P1",
+        "baseline": ["LOW", "MODERATE", "HIGH"],
+        "related": ["AC-2", "AC-3", "AC-6", "IA-2", "IA-5"],
+        "importance": "Cloud identity and access management controls ensure that only authorized users and systems can access cloud resources, with appropriate privileges based on roles and responsibilities.",
+        "mitigationSuggestions": [
+          "Implement federated identity management for cloud services",
+          "Configure role-based access control for cloud resources",
+          "Deploy multi-factor authentication for cloud access",
+          "Establish privileged access management for cloud administrators",
+          "Implement just-in-time access for sensitive cloud functions"
+        ],
+        "assessmentProcedures": [
+          "Review cloud identity and access management implementation",
+          "Test cloud authentication mechanisms",
+          "Verify cloud privilege management"
+        ],
+        "requiredArtifacts": [
+          "Cloud identity architecture documentation",
+          "Cloud access control configuration",
+          "Privileged access management procedures"
+        ]
+      },
+      "CS-5": {
+        "id": "CS-5",
+        "family": "CS",
+        "title": "Container Security",
+        "description": "Implement security controls specific to container technologies to ensure the secure deployment and operation of containerized workloads.",
+        "priority": "P2",
+        "baseline": ["MODERATE", "HIGH"],
+        "related": ["CM-2", "CM-6", "RA-5", "SA-11", "SI-3"],
+        "importance": "Container security controls address the unique risks associated with containerized applications, including image security, runtime protection, and orchestration security.",
+        "mitigationSuggestions": [
+          "Implement secure container image management",
+          "Deploy container vulnerability scanning",
+          "Configure container runtime security monitoring",
+          "Establish secure container orchestration practices",
+          "Implement container network segmentation"
+        ],
+        "assessmentProcedures": [
+          "Review container security architecture",
+          "Test container image security controls",
+          "Verify container runtime protection"
+        ],
+        "requiredArtifacts": [
+          "Container security policy and procedures",
+          "Container image scanning results",
+          "Container orchestration security configuration"
+        ]
+      }
+    }
+}

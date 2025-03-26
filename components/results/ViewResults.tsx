@@ -240,8 +240,20 @@ const ViewResults: React.FC = () => {
     const notImplemented = controls.filter(c => normalizeStatus(c.status) === 'Not Implemented').length;
     const notApplicable = controls.filter(c => normalizeStatus(c.status) === 'Not Applicable').length;
     
-    const implementationRate = total > 0 ? 
-      Math.round(((implemented + (partiallyImplemented * 0.5) + (planned * 0.25)) / (total - notApplicable)) * 100) : 0;
+    // Calculate the implementation rate (weighted score)
+    // Implemented = 100%, Partially = 50%, Planned = 25%, Not Implemented = 0%, Not Applicable = excluded
+    const relevantControls = total - notApplicable;
+    const weightedScore = 
+      (implemented * 1.0) + 
+      (partiallyImplemented * 0.5) + 
+      (planned * 0.25);
+    
+    const implementationRate = relevantControls > 0 ? 
+      Math.round((weightedScore / relevantControls) * 100) : 0;
+    
+    // Calculate the completion rate (how many controls have been addressed at all)
+    const completionRate = total > 0 ?
+      Math.round(((total - notImplemented) / total) * 100) : 0;
     
     return {
       total,
@@ -250,7 +262,8 @@ const ViewResults: React.FC = () => {
       planned,
       notImplemented,
       notApplicable,
-      implementationRate
+      implementationRate,
+      completionRate
     };
   };
 
@@ -297,6 +310,10 @@ const ViewResults: React.FC = () => {
   const handleExportAssessment = () => {
     if (!assessment) return;
     
+    // Calculate the score based on the controls data if needed
+    const controlsArray = getControlsArray();
+    const stats = calculateStats(controlsArray);
+    
     // Format the assessment data to match the example output format
     const formattedAssessment = {
       assessment: {
@@ -307,8 +324,8 @@ const ViewResults: React.FC = () => {
         scope: assessment.scope,
         date: assessment.date,
         status: assessment.status,
-        completion: assessment.completion || 0,
-        score: assessment.score || 0,
+        completion: stats.completionRate,
+        score: stats.implementationRate,
         controls: assessment.controls,
         completionDate: new Date().toISOString().split('T')[0]
       }
@@ -320,7 +337,7 @@ const ViewResults: React.FC = () => {
     const a = document.createElement('a');
     a.href = url;
     a.download = `${assessment.organization.toLowerCase().replace(/\s+/g, '-')}-${
-      assessment.score || 0
+      stats.implementationRate
     }-nist-assessment.json`;
     document.body.appendChild(a);
     a.click();
@@ -367,17 +384,21 @@ const ViewResults: React.FC = () => {
           </div>
           
           {controlsArray.length > 0 && (
-            <div className="mt-6 md:mt-0">
+            <div className="mt-6 md:mt-0 flex flex-col items-center">
               <DonutChart 
                 value={stats.implementationRate} 
-                size={120} 
+                size={140} 
                 primaryColor={getRateColor(stats.implementationRate)}
               >
                 <div className="text-center">
                   <div className="text-3xl font-bold">{stats.implementationRate}%</div>
-                  <div className="text-xs text-gray-500">Implementation</div>
+                  <div className="text-xs text-gray-500">Security Score</div>
                 </div>
               </DonutChart>
+              <div className="text-sm text-gray-600 mt-2 text-center">
+                <div>Completion: <span className="font-semibold">{stats.completionRate}%</span></div>
+                <div className="text-xs mt-1">Score is weighted by implementation level</div>
+              </div>
             </div>
           )}
         </div>

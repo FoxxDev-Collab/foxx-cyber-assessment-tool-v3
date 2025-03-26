@@ -1,0 +1,139 @@
+{
+    "PR": {
+      "PR-1": {
+        "id": "PR-1",
+        "family": "PR",
+        "title": "Privacy Policy and Procedures",
+        "description": "Establish and maintain privacy policies and procedures that align with applicable laws, regulations, and standards.",
+        "priority": "P1",
+        "baseline": ["LOW", "MODERATE", "HIGH"],
+        "related": ["AP-1", "AR-1", "CM-1", "PM-9", "SI-12"],
+        "importance": "Privacy policies and procedures provide the foundation for protecting personal information throughout its lifecycle, ensuring compliance with regulations and building trust with users.",
+        "mitigationSuggestions": [
+          "Develop comprehensive privacy policies aligned with applicable regulations",
+          "Define procedures for collecting, processing, and protecting personal information",
+          "Establish processes for responding to privacy incidents",
+          "Create mechanisms for handling privacy rights requests",
+          "Implement privacy governance structures"
+        ],
+        "assessmentProcedures": [
+          "Review privacy policies and procedures",
+          "Verify alignment with applicable regulations",
+          "Test privacy procedures implementation"
+        ],
+        "requiredArtifacts": [
+          "Privacy policies and procedures documentation",
+          "Regulatory alignment mapping",
+          "Privacy governance structure documentation"
+        ]
+      },
+      "PR-2": {
+        "id": "PR-2",
+        "family": "PR",
+        "title": "Privacy Impact Assessment",
+        "description": "Conduct privacy impact assessments for systems and processes that collect, process, store, or transmit personal information.",
+        "priority": "P1",
+        "baseline": ["LOW", "MODERATE", "HIGH"],
+        "related": ["RA-3", "RA-8", "SI-12"],
+        "importance": "Privacy impact assessments identify privacy risks early in the system lifecycle, enabling risk mitigation before personal information is collected or processed.",
+        "mitigationSuggestions": [
+          "Develop privacy impact assessment methodology",
+          "Conduct assessments during system design phases",
+          "Document privacy controls implemented for risk mitigation",
+          "Review assessments when system changes occur",
+          "Establish privacy risk acceptance processes"
+        ],
+        "assessmentProcedures": [
+          "Review privacy impact assessment methodology",
+          "Verify completed assessments for relevant systems",
+          "Test risk mitigation control implementation"
+        ],
+        "requiredArtifacts": [
+          "Privacy impact assessment methodology",
+          "Completed privacy impact assessments",
+          "Privacy risk mitigation documentation"
+        ]
+      },
+      "PR-3": {
+        "id": "PR-3",
+        "family": "PR",
+        "title": "Data Minimization and Retention",
+        "description": "Implement controls to minimize the collection and retention of personal information to what is strictly necessary for identified purposes.",
+        "priority": "P1",
+        "baseline": ["LOW", "MODERATE", "HIGH"],
+        "related": ["DM-1", "DM-2", "DM-3", "SI-12"],
+        "importance": "Data minimization and retention controls reduce privacy risks by limiting the amount of personal information collected and the duration of its storage.",
+        "mitigationSuggestions": [
+          "Implement data minimization principles in system design",
+          "Establish data retention schedules and automated deletion",
+          "Document purpose specification for data collection",
+          "Create processes for regular data inventory and classification",
+          "Implement data anonymization and pseudonymization techniques"
+        ],
+        "assessmentProcedures": [
+          "Review data minimization policies",
+          "Test data retention and deletion mechanisms",
+          "Verify data purpose documentation"
+        ],
+        "requiredArtifacts": [
+          "Data minimization policy",
+          "Data retention schedules",
+          "Data purpose specification documentation"
+        ]
+      },
+      "PR-4": {
+        "id": "PR-4",
+        "family": "PR",
+        "title": "Consent Management",
+        "description": "Implement processes and tools to obtain, manage, and verify consent for the collection, processing, and sharing of personal information.",
+        "priority": "P1",
+        "baseline": ["MODERATE", "HIGH"],
+        "related": ["IP-1", "IP-2", "UL-1", "UL-2"],
+        "importance": "Consent management ensures that individuals have control over their personal information and that organizations have a legal basis for data processing activities.",
+        "mitigationSuggestions": [
+          "Implement consent capture mechanisms",
+          "Create consent management systems",
+          "Establish processes for consent verification",
+          "Develop mechanisms for consent withdrawal",
+          "Document consent for various data processing activities"
+        ],
+        "assessmentProcedures": [
+          "Review consent management implementation",
+          "Test consent capture and withdrawal mechanisms",
+          "Verify consent documentation"
+        ],
+        "requiredArtifacts": [
+          "Consent management system documentation",
+          "Consent capture interfaces",
+          "Consent processing logs"
+        ]
+      },
+      "PR-5": {
+        "id": "PR-5",
+        "family": "PR",
+        "title": "Privacy-Enhancing Technologies",
+        "description": "Implement privacy-enhancing technologies to minimize privacy risks while enabling system functionality.",
+        "priority": "P2",
+        "baseline": ["MODERATE", "HIGH"],
+        "related": ["SC-8", "SC-13", "SC-28", "SI-12"],
+        "importance": "Privacy-enhancing technologies provide technical controls to protect privacy beyond basic security measures, enabling privacy-by-design implementation.",
+        "mitigationSuggestions": [
+          "Implement data anonymization techniques",
+          "Deploy pseudonymization for data processing",
+          "Configure differential privacy mechanisms",
+          "Implement homomorphic encryption where applicable",
+          "Deploy federated learning for data analysis"
+        ],
+        "assessmentProcedures": [
+          "Review privacy-enhancing technology implementation",
+          "Test effectiveness of privacy technologies",
+          "Verify documentation of privacy controls"
+        ],
+        "requiredArtifacts": [
+          "Privacy-enhancing technology architecture",
+          "Implementation documentation",
+          "Effectiveness testing results"
+        ]
+      }
+    }
+}
