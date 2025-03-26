@@ -1,15 +1,32 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import ViewResults from '../../components/results/ViewResults';
+import { Trash2 } from 'lucide-react';
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 export type AssessmentData = {
   status?: string;
   notes?: string;
 }
 
+// Define constants for localStorage keys
+const ASSESSMENT_RESULTS_KEY = 'cyber-assessment-results';
+const ASSESSMENT_STORAGE_KEY = 'cyber-assessment-data';
+
 const ResultsPage: React.FC = () => {
   const [debugMode, setDebugMode] = useState(false);
   const [rawData, setRawData] = useState<Record<string, Record<string, unknown>>>({});
+  const [showClearDataDialog, setShowClearDataDialog] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
   useEffect(() => {
     const checkLocalStorage = () => {
@@ -22,12 +39,12 @@ const ResultsPage: React.FC = () => {
           data.currentAssessment = JSON.parse(currentAssessment);
         }
         
-        const cyberAssessmentResults = localStorage.getItem('cyber-assessment-results');
+        const cyberAssessmentResults = localStorage.getItem(ASSESSMENT_RESULTS_KEY);
         if (cyberAssessmentResults) {
           data.cyberAssessmentResults = JSON.parse(cyberAssessmentResults);
         }
         
-        const cyberAssessmentData = localStorage.getItem('cyber-assessment-data');
+        const cyberAssessmentData = localStorage.getItem(ASSESSMENT_STORAGE_KEY);
         if (cyberAssessmentData) {
           data.cyberAssessmentData = JSON.parse(cyberAssessmentData);
         }
@@ -43,6 +60,32 @@ const ResultsPage: React.FC = () => {
 
   const toggleDebugMode = () => {
     setDebugMode(!debugMode);
+  };
+
+  // Function to clear all assessment data
+  const clearAllData = () => {
+    // Clear all assessment-related localStorage items
+    localStorage.removeItem('currentAssessment');
+    localStorage.removeItem('assessment-export-format');
+    localStorage.removeItem(ASSESSMENT_RESULTS_KEY);
+    localStorage.removeItem(ASSESSMENT_STORAGE_KEY);
+    
+    // Show success message
+    setSaveMessage({
+      type: 'success',
+      message: 'All assessment data has been cleared. Your session data has been completely removed.'
+    });
+    
+    // Close the dialog
+    setShowClearDataDialog(false);
+    
+    // Clear message after 5 seconds
+    setTimeout(() => setSaveMessage(null), 5000);
+    
+    // Refresh the page to ensure all components reload with fresh state
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   };
 
   // Add function to generate the export format that can be shown to the user
@@ -82,6 +125,12 @@ const ResultsPage: React.FC = () => {
 
   return (
     <div className="container mx-auto py-6 px-4">
+      {saveMessage && (
+        <div className={`mb-4 p-3 rounded-lg ${saveMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+          {saveMessage.message}
+        </div>
+      )}
+      
       <div className="mb-6 bg-white p-6 rounded-lg shadow-sm border">
         <div className="flex justify-between items-center">
           <div>
@@ -109,6 +158,12 @@ const ResultsPage: React.FC = () => {
               className="text-xs text-gray-500 underline"
             >
               {debugMode ? 'Hide Debug' : 'Debug'}
+            </button>
+            <button
+              onClick={() => setShowClearDataDialog(true)}
+              className="text-xs bg-destructive text-white px-2 py-1 rounded flex items-center gap-1"
+            >
+              <Trash2 className="h-3 w-3" /> Clear Data
             </button>
           </div>
         </div>
@@ -140,6 +195,34 @@ const ResultsPage: React.FC = () => {
       )}
       
       <ViewResults />
+      
+      {/* Clear Data Dialog */}
+      <AlertDialog open={showClearDataDialog} onOpenChange={setShowClearDataDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-destructive">Delete All Assessment Data?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently remove all assessment data from your browser, including:
+            </AlertDialogDescription>
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>Current assessment progress</li>
+              <li>Organization and assessor information</li>
+              <li>All control evaluations and notes</li>
+              <li>Exported results and reports</li>
+            </ul>
+            <p className="mt-2 font-medium text-sm text-muted-foreground">This action cannot be undone.</p>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={clearAllData}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Yes, Delete Everything
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
