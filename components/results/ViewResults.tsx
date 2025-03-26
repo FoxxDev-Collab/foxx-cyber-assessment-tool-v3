@@ -3,6 +3,16 @@ import { getFamilyFullName } from '../../lib/utils/controlUtils';
 import DonutChart from '../charts/DonutChart';
 import MetricCard from '../ui/MetricCard';
 
+interface AssessmentControl {
+  status: string;
+  notes: string;
+  score: number;
+}
+
+interface AssessmentControlFamily {
+  [controlId: string]: AssessmentControl;
+}
+
 interface AssessmentResult {
   id: string;
   name: string;
@@ -11,12 +21,27 @@ interface AssessmentResult {
   scope: string;
   date: string;
   status: string;
+  completion?: number;
+  score?: number;
   controls: Record<string, {
     id: string;
     status: string;
     notes: string;
     evidence: string;
   }>;
+}
+
+interface FormattedAssessmentResult {
+  id: string;
+  name: string;
+  organization: string;
+  assessor: string;
+  scope: string;
+  date: string;
+  status: string;
+  completion: number;
+  score: number;
+  controls: Record<string, Record<string, AssessmentControl>>;
 }
 
 const ViewResults: React.FC = () => {
@@ -27,10 +52,61 @@ const ViewResults: React.FC = () => {
   useEffect(() => {
     const loadAssessment = () => {
       try {
+        // First check if we have an assessment in the export format
+        const exportFormat = localStorage.getItem('assessment-export-format');
+        if (exportFormat) {
+          console.log("Loading from assessment-export-format");
+          const parsedExport = JSON.parse(exportFormat);
+          console.log("Export format found:", parsedExport);
+          setAssessment(parsedExport.assessment);
+          return;
+        }
+
+        // Try the currentAssessment next
         const savedAssessment = localStorage.getItem('currentAssessment');
         if (savedAssessment) {
-          const parsedAssessment = JSON.parse(savedAssessment) as AssessmentResult;
-          setAssessment(parsedAssessment);
+          console.log("Loading from currentAssessment");
+          const parsedAssessment = JSON.parse(savedAssessment);
+          
+          // Check if this is already in the expected nested format
+          if (parsedAssessment.assessment) {
+            console.log("Found nested assessment structure:", parsedAssessment);
+            setAssessment(parsedAssessment.assessment);
+          } else {
+            // It's a flat assessment structure
+            console.log("Found flat assessment structure:", parsedAssessment);
+            setAssessment(parsedAssessment);
+          }
+          return;
+        }
+        
+        // Try cyber-assessment-results as fallback
+        const resultsData = localStorage.getItem('cyber-assessment-results');
+        if (resultsData) {
+          console.log("Loading from cyber-assessment-results");
+          const parsedResults = JSON.parse(resultsData);
+          console.log("Results data:", parsedResults);
+          
+          // Check if this is already nested with 'assessment'
+          if (parsedResults.data && parsedResults.data.assessment) {
+            setAssessment(parsedResults.data.assessment);
+          } else if (parsedResults.data) {
+            setAssessment(parsedResults.data);
+          }
+          return;
+        }
+        
+        // Last resort - try cyber-assessment-data
+        const assessmentData = localStorage.getItem('cyber-assessment-data');
+        if (assessmentData) {
+          console.log("Loading from cyber-assessment-data (raw format)");
+          const parsedData = JSON.parse(assessmentData);
+          
+          // This needs full conversion
+          if (parsedData.data) {
+            const formattedAssessment = formatAssessmentData(parsedData.data);
+            setAssessment(formattedAssessment as unknown as AssessmentResult);
+          }
         }
       } catch (error) {
         console.error('Error loading assessment:', error);
@@ -42,27 +118,127 @@ const ViewResults: React.FC = () => {
     loadAssessment();
   }, []);
 
+  // Format assessment data from the cyber-assessment-data format to match expected results format
+  const formatAssessmentData = (data: Record<string, { status?: string, notes?: string }>): FormattedAssessmentResult => {
+    // Generate a formatted assessment object with appropriate structure
+    const now = new Date();
+    const formattedControls: Record<string, Record<string, AssessmentControl>> = {};
+    
+    // Group controls by family
+    Object.entries(data).forEach(([controlId, controlData]) => {
+      const family = controlId.split('-')[0];
+      if (!formattedControls[family]) {
+        formattedControls[family] = {};
+      }
+      
+      formattedControls[family][controlId] = {
+        status: controlData.status || 'Not Implemented',
+        notes: controlData.notes || '',
+        score: 0
+      };
+    });
+    
+    // Calculate completion percentage
+    const total = Object.keys(data).length;
+    const completed = Object.values(data).filter(c => c.status && c.status !== 'Not Implemented').length;
+    const completionPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+    
+    // Create the formatted assessment
+    return {
+      id: Date.now().toString(),
+      name: 'Security Assessment',
+      organization: 'Your Organization',
+      assessor: 'Security Team',
+      scope: 'Enterprise systems and applications',
+      date: now.toISOString().split('T')[0],
+      status: 'Completed',
+      completion: completionPercentage,
+      score: completionPercentage,
+      controls: formattedControls
+    };
+  };
+
   // Convert controls object to array for easier processing
   const getControlsArray = () => {
-    if (!assessment || !assessment.controls) return [];
+    if (!assessment || !assessment.controls) {
+      console.log("No assessment or controls found");
+      return [];
+    }
     
-    return Object.values(assessment.controls).map(control => ({
-      id: control.id,
-      family: control.id.split('-')[0],
-      status: control.status,
-      notes: control.notes,
-      evidence: control.evidence
-    }));
+    console.log("Processing controls:", assessment.controls);
+    
+    interface ControlData {
+      status: string;
+      notes: string;
+      score: number;
+    }
+    
+    const controlsArray: Array<{
+      id: string;
+      family: string;
+      status: string;
+      notes: string;
+      evidence: string;
+    }> = [];
+    
+    // Check if we have the format from the example output (nested by family)
+    // The example format has controls grouped by family, e.g., AC: { AC-1: {...}, AC-2: {...} }
+    Object.entries(assessment.controls).forEach(([family, familyControls]) => {
+      console.log(`Processing family ${family}:`, familyControls);
+      
+      if (typeof familyControls === 'object' && familyControls !== null) {
+        // Process each control in the family
+        Object.entries(familyControls as Record<string, unknown>).forEach(([controlId, control]) => {
+          const controlData = control as ControlData;
+          if (typeof control === 'object' && control !== null && 'status' in controlData) {
+            console.log(`Adding control ${controlId} with status ${controlData.status}`);
+            controlsArray.push({
+              id: controlId,
+              family: family,
+              status: controlData.status,
+              notes: controlData.notes || '',
+              evidence: ''
+            });
+          }
+        });
+      }
+    });
+    
+    console.log("Processed controls array:", controlsArray);
+    return controlsArray;
+  };
+
+  // Normalize status values to match the expected format
+  const normalizeStatus = (status: string): string => {
+    switch (status.toLowerCase()) {
+      case 'implemented':
+        return 'Implemented';
+      case 'partially':
+      case 'partially-implemented':
+      case 'partial':
+        return 'Partially Implemented';
+      case 'planned':
+        return 'Planned';
+      case 'not-implemented':
+      case 'notimplemented':
+        return 'Not Implemented';
+      case 'not-applicable':
+      case 'notapplicable':
+      case 'na':
+        return 'Not Applicable';
+      default:
+        return 'Not Implemented';
+    }
   };
 
   // Calculate compliance statistics
   const calculateStats = (controls: any[]) => {
     const total = controls.length;
-    const implemented = controls.filter(c => c.status === 'Implemented').length;
-    const partiallyImplemented = controls.filter(c => c.status === 'Partially Implemented').length;
-    const planned = controls.filter(c => c.status === 'Planned').length;
-    const notImplemented = controls.filter(c => c.status === 'Not Implemented').length;
-    const notApplicable = controls.filter(c => c.status === 'Not Applicable').length;
+    const implemented = controls.filter(c => normalizeStatus(c.status) === 'Implemented').length;
+    const partiallyImplemented = controls.filter(c => normalizeStatus(c.status) === 'Partially Implemented').length;
+    const planned = controls.filter(c => normalizeStatus(c.status) === 'Planned').length;
+    const notImplemented = controls.filter(c => normalizeStatus(c.status) === 'Not Implemented').length;
+    const notApplicable = controls.filter(c => normalizeStatus(c.status) === 'Not Applicable').length;
     
     const implementationRate = total > 0 ? 
       Math.round(((implemented + (partiallyImplemented * 0.5) + (planned * 0.25)) / (total - notApplicable)) * 100) : 0;
@@ -93,7 +269,9 @@ const ViewResults: React.FC = () => {
 
   // Get color based on status
   const getStatusColor = (status?: string) => {
-    switch (status) {
+    if (!status) return 'text-gray-700';
+    
+    switch (normalizeStatus(status)) {
       case 'Implemented': return 'text-green-600';
       case 'Partially Implemented': return 'text-orange-500';
       case 'Planned': return 'text-blue-500';
@@ -119,12 +297,31 @@ const ViewResults: React.FC = () => {
   const handleExportAssessment = () => {
     if (!assessment) return;
     
-    const jsonData = JSON.stringify(assessment, null, 2);
+    // Format the assessment data to match the example output format
+    const formattedAssessment = {
+      assessment: {
+        id: assessment.id,
+        name: assessment.name,
+        organization: assessment.organization,
+        assessor: assessment.assessor,
+        scope: assessment.scope,
+        date: assessment.date,
+        status: assessment.status,
+        completion: assessment.completion || 0,
+        score: assessment.score || 0,
+        controls: assessment.controls,
+        completionDate: new Date().toISOString().split('T')[0]
+      }
+    };
+    
+    const jsonData = JSON.stringify(formattedAssessment, null, 2);
     const blob = new Blob([jsonData], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `nist-rmf-assessment-${assessment.name.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `${assessment.organization.toLowerCase().replace(/\s+/g, '-')}-${
+      assessment.score || 0
+    }-nist-assessment.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -249,41 +446,35 @@ const ViewResults: React.FC = () => {
             {Object.entries(groupControlsByFamily(controlsArray)).map(([family, controls]) => {
               const familyStats = calculateStats(controls);
               return (
-                <div key={family} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                <div key={family} className="border rounded-md p-4">
                   <div className="flex justify-between items-center mb-2">
-                    <h4 className="font-medium">
-                      {family} - {getFamilyFullName(family)}
-                    </h4>
-                    <div className="flex items-center">
-                      <DonutChart 
-                        value={familyStats.implementationRate} 
-                        size={40} 
-                        strokeWidth={6}
-                        primaryColor={getRateColor(familyStats.implementationRate)}
-                      />
-                      <span className="ml-2 font-bold">{familyStats.implementationRate}%</span>
-                    </div>
+                    <h4 className="font-medium">{getFamilyFullName(family)}</h4>
+                    <span className={getStatusColor()}>
+                      {familyStats.implementationRate}% Complete
+                    </span>
                   </div>
-                  <div className="grid grid-cols-5 gap-2 mt-4 text-center text-xs">
-                    <div>
-                      <div className="font-bold text-green-600">{familyStats.implemented}</div>
-                      <div className="text-gray-500">Implemented</div>
+                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                    <div 
+                      className="bg-primary h-2 rounded-full" 
+                      style={{ width: `${familyStats.implementationRate}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-sm grid grid-cols-2 gap-2">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                      <span>Implemented: {familyStats.implemented}</span>
                     </div>
-                    <div>
-                      <div className="font-bold text-orange-500">{familyStats.partiallyImplemented}</div>
-                      <div className="text-gray-500">Partially</div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full bg-orange-500 mr-2"></div>
+                      <span>Partial: {familyStats.partiallyImplemented}</span>
                     </div>
-                    <div>
-                      <div className="font-bold text-blue-500">{familyStats.planned}</div>
-                      <div className="text-gray-500">Planned</div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                      <span>Planned: {familyStats.planned}</span>
                     </div>
-                    <div>
-                      <div className="font-bold text-red-500">{familyStats.notImplemented}</div>
-                      <div className="text-gray-500">Not Impl.</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-gray-500">{familyStats.notApplicable}</div>
-                      <div className="text-gray-500">N/A</div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                      <span>Not Impl: {familyStats.notImplemented}</span>
                     </div>
                   </div>
                 </div>

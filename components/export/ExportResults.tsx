@@ -158,19 +158,60 @@ const ExportResults: React.FC = () => {
 
   // Handle export button click
   const handleExport = () => {
+    // First check if we have a recently completed assessment
+    const savedExportFormat = localStorage.getItem('assessment-export-format');
+    if (savedExportFormat) {
+      try {
+        const parsedExportFormat = JSON.parse(savedExportFormat);
+        // Use the prepared export format that matches example-output
+        const jsonContent = JSON.stringify(parsedExportFormat, null, 2);
+        const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        const organization = parsedExportFormat.assessment.organization.toLowerCase().replace(/\s+/g, '-');
+        const score = parsedExportFormat.assessment.score;
+        link.setAttribute('download', `${organization}-${score}-nist-assessment.json`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return;
+      } catch (error) {
+        console.error('Error exporting saved assessment format:', error);
+      }
+    }
+    
+    // Fall back to manually uploaded file if no recent assessment
     if (!assessment) {
       alert('Please load an assessment file first');
       return;
     }
 
     if (exportFormat === 'json') {
-      // Export JSON - same as the original file
-      const jsonContent = JSON.stringify(assessment, null, 2);
+      // Format assessment to match the example-output
+      const formattedAssessment = {
+        assessment: {
+          id: assessment.assessment.id,
+          name: assessment.assessment.name,
+          organization: assessment.assessment.organization,
+          assessor: assessment.assessment.assessor,
+          scope: assessment.assessment.scope || '',
+          date: assessment.assessment.date,
+          status: assessment.assessment.status,
+          completion: assessment.assessment.completion,
+          score: assessment.assessment.score,
+          controls: assessment.assessment.controls,
+          completionDate: new Date().toISOString().split('T')[0]
+        }
+      };
+      
+      // Export JSON with the proper format
+      const jsonContent = JSON.stringify(formattedAssessment, null, 2);
       const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', `nist-rmf-assessment-${assessment.assessment.name.replace(/\s+/g, '-').toLowerCase()}-${assessment.assessment.date}.json`);
+      link.setAttribute('download', `${assessment.assessment.organization.toLowerCase().replace(/\s+/g, '-')}-${assessment.assessment.score}-nist-assessment.json`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
