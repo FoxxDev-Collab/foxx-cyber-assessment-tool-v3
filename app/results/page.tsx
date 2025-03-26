@@ -126,16 +126,16 @@ const ResultsPage: React.FC = () => {
   return (
     <div className="container mx-auto py-6 px-4">
       {saveMessage && (
-        <div className={`mb-4 p-3 rounded-lg ${saveMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+        <div className={`mb-4 p-3 rounded-lg ${saveMessage.type === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'}`}>
           {saveMessage.message}
         </div>
       )}
       
-      <div className="mb-6 bg-white p-6 rounded-lg shadow-sm border">
+      <div className="mb-6 bg-card text-card-foreground p-6 rounded-lg shadow-sm border">
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold">Assessment Results</h2>
-            <p className="text-gray-600">View your assessment results and implementation status</p>
+            <p className="text-muted-foreground">View your assessment results and implementation status</p>
           </div>
           <div className="space-x-2">
             <button
@@ -149,19 +149,19 @@ const ResultsPage: React.FC = () => {
                   alert("Error generating export format.");
                 }
               }}
-              className="text-xs bg-primary text-white px-2 py-1 rounded"
+              className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded"
             >
               Copy JSON
             </button>
             <button 
               onClick={toggleDebugMode}
-              className="text-xs text-gray-500 underline"
+              className="text-xs text-muted-foreground underline"
             >
               {debugMode ? 'Hide Debug' : 'Debug'}
             </button>
             <button
               onClick={() => setShowClearDataDialog(true)}
-              className="text-xs bg-destructive text-white px-2 py-1 rounded flex items-center gap-1"
+              className="text-xs bg-destructive text-destructive-foreground px-2 py-1 rounded flex items-center gap-1"
             >
               <Trash2 className="h-3 w-3" /> Clear Data
             </button>
@@ -171,13 +171,13 @@ const ResultsPage: React.FC = () => {
       
       {debugMode && (
         <div className="mb-6 space-y-4">
-          <div className="bg-white p-6 rounded-lg shadow-sm border overflow-auto max-h-[500px]">
+          <div className="bg-card text-card-foreground p-6 rounded-lg shadow-sm border overflow-auto max-h-[500px]">
             <h3 className="text-lg font-bold mb-2">Debug Data</h3>
             <div className="space-y-4">
               {Object.entries(rawData).map(([key, value]) => (
                 <div key={key}>
                   <h4 className="font-medium">{key}</h4>
-                  <pre className="bg-gray-100 p-3 rounded text-xs overflow-auto max-h-[200px]">
+                  <pre className="bg-muted text-muted-foreground p-3 rounded text-xs overflow-auto max-h-[200px]">
                     {JSON.stringify(value, null, 2)}
                   </pre>
                 </div>
@@ -185,9 +185,9 @@ const ResultsPage: React.FC = () => {
             </div>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-sm border overflow-auto max-h-[500px]">
+          <div className="bg-card text-card-foreground p-6 rounded-lg shadow-sm border overflow-auto max-h-[500px]">
             <h3 className="text-lg font-bold mb-2">Export Format (matches example-output)</h3>
-            <pre className="bg-gray-100 p-3 rounded text-xs overflow-auto max-h-[400px]">
+            <pre className="bg-muted text-muted-foreground p-3 rounded text-xs overflow-auto max-h-[400px]">
               {getExportFormat()}
             </pre>
           </div>

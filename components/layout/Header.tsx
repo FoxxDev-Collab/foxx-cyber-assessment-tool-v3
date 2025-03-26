@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const navigation = [
   { name: "Assessment", href: "/assessment" },
@@ -31,7 +32,8 @@ export function Header() {
           </div>
           
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <button
               type="button"
               className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none"
@@ -63,6 +65,11 @@ export function Header() {
               </Link>
             ))}
           </nav>
+          
+          {/* Desktop ThemeToggle */}
+          <div className="hidden md:flex items-center">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
       

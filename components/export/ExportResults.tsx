@@ -1,416 +1,371 @@
 "use client"
 
-import React, { useState } from 'react';
-import { getFamilyFullName } from '../../lib/utils/controlUtils';
-
-// Matching the v2.html export format
-interface AssessmentControl {
-  status: string;
-  notes: string;
-  score: number;
-}
-
-interface AssessmentControlFamily {
-  [controlId: string]: AssessmentControl;
-}
-
-interface AssessmentData {
-  id: string;
-  name: string;
-  organization: string;
-  assessor: string;
-  scope?: string;
-  date: string;
-  status: string;
-  completion: number;
-  score: number;
-  controls: {
-    [family: string]: AssessmentControlFamily;
-  };
-}
-
-interface AssessmentResult {
-  assessment: AssessmentData;
-}
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { FileJson, FileSpreadsheet, FileText, Download, Eye } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { AssessmentResult, ControlStats } from './types';
+import { generatePdfDocument, calculatePdfStats } from './pdfUtils';
+import { generateCSVPreview, generateCSVContent } from './csvUtils';
+import { loadAssessmentData } from './storageUtils';
 
 const ExportResults: React.FC = () => {
   const [assessment, setAssessment] = useState<AssessmentResult | null>(null);
-  const [fileError, setFileError] = useState<string>('');
-  const [exportFormat, setExportFormat] = useState<string>('json');
+  const [loading, setLoading] = useState(true);
   const [previewData, setPreviewData] = useState<string>('');
+  const [selectedTab, setSelectedTab] = useState<string>('json');
+  const [pdfStyle, setPdfStyle] = useState<string>('standard');
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
+  const pdfPreviewRef = useRef<HTMLIFrameElement>(null);
 
-  // Handle file upload
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFileError('');
-    setPreviewData('');
-    const file = event.target.files?.[0];
-    if (!file) return;
+  // Generate preview based on selected format
+  const generatePreview = useCallback((data: AssessmentResult, format: string) => {
+    if (!data) return;
     
-    const reader = new FileReader();
-    reader.onload = (e) => {
+    if (format === 'json') {
+      const jsonPreview = JSON.stringify(data, null, 2);
+      setPreviewData(jsonPreview.length > 2000 
+        ? jsonPreview.substring(0, 2000) + '...\n(Preview truncated)' 
+        : jsonPreview);
+      setPdfPreviewUrl(null);
+    } else if (format === 'csv') {
+      setPreviewData(generateCSVPreview(data));
+      setPdfPreviewUrl(null);
+    } else if (format === 'pdf') {
+      setPreviewData('');
+      // Generate PDF preview
       try {
-        const content = e.target?.result as string;
-        const parsed = JSON.parse(content) as AssessmentResult;
-        
-        // Basic validation that this is an assessment file in v2.html format
-        if (!parsed.assessment || !parsed.assessment.id || !parsed.assessment.controls) {
-          throw new Error('Invalid assessment file format');
-        }
-        
-        setAssessment(parsed);
-        
-        // Generate JSON preview
-        const previewContent = JSON.stringify(parsed, null, 2);
-        setPreviewData(previewContent.length > 1000 
-          ? previewContent.substring(0, 1000) + '...' 
-          : previewContent);
+        const pdfDoc = generatePdfDocument(data, pdfStyle);
+        const pdfBlob = pdfDoc.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        setPdfPreviewUrl(url);
       } catch (error) {
-        console.error('Error parsing assessment file:', error);
-        setFileError('Invalid assessment file. Please select a valid JSON assessment file.');
+        console.error('Error generating PDF preview:', error);
+        setPreviewData('Error generating PDF preview. Please try downloading directly.');
       }
-    };
-    reader.readAsText(file);
-  };
+    }
+  }, [generateCSVPreview, pdfStyle]);
 
-  // Generate CSV export
-  const generateCSV = () => {
-    if (!assessment) return '';
-    
-    const headers = ['Family', 'Control ID', 'Title', 'Status', 'Notes'];
-    const rows: string[][] = [];
-    
-    // Process each family and control
-    Object.entries(assessment.assessment.controls).forEach(([familyId, familyControls]) => {
-      Object.entries(familyControls).forEach(([controlId, control]) => {
-        // Get control title from the controlId (would need actual control data)
-        // In a real app, you'd use the actual control title from your controls data
-        const controlTitle = `${controlId} Control`;
-        
-        rows.push([
-          getFamilyFullName(familyId),
-          controlId,
-          controlTitle,
-          control.status,
-          control.notes || ''
-        ]);
-      });
-    });
-    
-    // Sort by control ID
-    rows.sort((a, b) => a[1].localeCompare(b[1]));
-    
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-    ].join('\n');
-    
-    return csvContent;
-  };
+  // Load assessment from localStorage
+  const loadAssessmentDataFromStorage = useCallback(() => {
+    try {
+      setLoading(true);
+      const assessmentData = loadAssessmentData();
+      
+      if (assessmentData) {
+        setAssessment(assessmentData);
+        generatePreview(assessmentData, selectedTab);
+      }
+      
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading assessment:', error);
+      setLoading(false);
+    }
+  }, [selectedTab, generatePreview]);
 
-  // Count controls by status
-  const countControlsByStatus = () => {
-    if (!assessment) return { total: 0, implemented: 0, partiallyImplemented: 0, planned: 0, notImplemented: 0, notApplicable: 0 };
-    
-    let total = 0;
-    let implemented = 0;
-    let partiallyImplemented = 0;
-    let planned = 0;
-    let notImplemented = 0;
-    let notApplicable = 0;
-    
-    // Process each family and control
-    Object.values(assessment.assessment.controls).forEach(familyControls => {
-      Object.values(familyControls).forEach(control => {
-        total++;
-        
-        switch (control.status) {
-          case 'Implemented':
-            implemented++;
-            break;
-          case 'Partially Implemented':
-            partiallyImplemented++;
-            break;
-          case 'Planned':
-            planned++;
-            break;
-          case 'Not Implemented':
-            notImplemented++;
-            break;
-          case 'Not Applicable':
-            notApplicable++;
-            break;
-        }
-      });
-    });
-    
-    return { total, implemented, partiallyImplemented, planned, notImplemented, notApplicable };
-  };
-
-  // Get score class based on score value (matching v2.html)
-  const getScoreClass = (score: number) => {
-    if (score < 20) return 'score-critical';
-    if (score < 40) return 'score-poor';
-    if (score < 60) return 'score-fair';
-    if (score < 80) return 'score-good';
-    return 'score-excellent';
-  };
+  // Load assessment from localStorage when component mounts
+  useEffect(() => {
+    loadAssessmentDataFromStorage();
+  }, [loadAssessmentDataFromStorage]);
 
   // Handle export button click
   const handleExport = () => {
-    // First check if we have a recently completed assessment
-    const savedExportFormat = localStorage.getItem('assessment-export-format');
-    if (savedExportFormat) {
-      try {
-        const parsedExportFormat = JSON.parse(savedExportFormat);
-        // Use the prepared export format that matches example-output
-        const jsonContent = JSON.stringify(parsedExportFormat, null, 2);
-        const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.setAttribute('href', url);
-        const organization = parsedExportFormat.assessment.organization.toLowerCase().replace(/\s+/g, '-');
-        const score = parsedExportFormat.assessment.score;
-        link.setAttribute('download', `${organization}-${score}-nist-assessment.json`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        return;
-      } catch (error) {
-        console.error('Error exporting saved assessment format:', error);
-      }
-    }
-    
-    // Fall back to manually uploaded file if no recent assessment
     if (!assessment) {
-      alert('Please load an assessment file first');
+      alert('No assessment data available to export');
       return;
     }
 
-    if (exportFormat === 'json') {
-      // Format assessment to match the example-output
-      const formattedAssessment = {
-        assessment: {
-          id: assessment.assessment.id,
-          name: assessment.assessment.name,
-          organization: assessment.assessment.organization,
-          assessor: assessment.assessment.assessor,
-          scope: assessment.assessment.scope || '',
-          date: assessment.assessment.date,
-          status: assessment.assessment.status,
-          completion: assessment.assessment.completion,
-          score: assessment.assessment.score,
-          controls: assessment.assessment.controls,
-          completionDate: new Date().toISOString().split('T')[0]
-        }
-      };
-      
-      // Export JSON with the proper format
-      const jsonContent = JSON.stringify(formattedAssessment, null, 2);
-      const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `${assessment.assessment.organization.toLowerCase().replace(/\s+/g, '-')}-${assessment.assessment.score}-nist-assessment.json`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else if (exportFormat === 'csv') {
-      const csvContent = generateCSV();
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `nist-rmf-assessment-${assessment.assessment.name.replace(/\s+/g, '-').toLowerCase()}-${assessment.assessment.date}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      // PDF format - in a real app would generate a PDF
-      alert('PDF export functionality requires additional libraries. Please use JSON or CSV export options.');
+    if (selectedTab === 'json') {
+      exportJSON();
+    } else if (selectedTab === 'csv') {
+      exportCSV();
+    } else if (selectedTab === 'pdf') {
+      exportPDF();
     }
   };
 
-  // Copy to clipboard function
-  const handleCopyToClipboard = () => {
-    if (!assessment) return;
+  // Export as JSON
+  const exportJSON = () => {
+    if (!assessment || !assessment.assessment) return;
     
     const jsonContent = JSON.stringify(assessment, null, 2);
-    navigator.clipboard.writeText(jsonContent)
-      .then(() => {
-        alert('JSON data copied to clipboard!');
-      })
-      .catch(err => {
-        console.error('Failed to copy: ', err);
-        alert('Failed to copy to clipboard. Please try again.');
-      });
+    const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    
+    const organization = assessment.assessment.organization.toLowerCase().replace(/\s+/g, '-');
+    const score = assessment.assessment.score;
+    link.setAttribute('download', `${organization}-${score}-nist-assessment.json`);
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+
+  // Export as CSV
+  const exportCSV = () => {
+    if (!assessment || !assessment.assessment) return;
+    
+    const csvContent = generateCSVContent(assessment);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    
+    const organization = assessment.assessment.organization.toLowerCase().replace(/\s+/g, '-');
+    link.setAttribute('download', `${organization}-nist-assessment-${assessment.assessment.date}.csv`);
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Export as PDF
+  const exportPDF = () => {
+    if (!assessment || !assessment.assessment) return;
+    
+    try {
+      const doc = generatePdfDocument(assessment, pdfStyle);
+      
+      // Save the PDF
+      const organization = assessment.assessment.organization.toLowerCase().replace(/\s+/g, '-');
+      doc.save(`${organization}-nist-assessment-${assessment.assessment.date}.pdf`);
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    }
+  };
+
+  // Update PDF preview when style changes
+  useEffect(() => {
+    if (selectedTab === 'pdf' && assessment) {
+      // Regenerate PDF preview when style changes
+      try {
+        const pdfDoc = generatePdfDocument(assessment, pdfStyle);
+        const pdfBlob = pdfDoc.output('blob');
+        
+        // Revoke old URL if exists
+        if (pdfPreviewUrl) {
+          URL.revokeObjectURL(pdfPreviewUrl);
+        }
+        
+        const url = URL.createObjectURL(pdfBlob);
+        setPdfPreviewUrl(url);
+      } catch (error) {
+        console.error('Error updating PDF preview:', error);
+      }
+    }
+  }, [pdfStyle, selectedTab, assessment, pdfPreviewUrl]);
+
+  // Clean up PDF preview URL when component unmounts
+  useEffect(() => {
+    return () => {
+      if (pdfPreviewUrl) {
+        URL.revokeObjectURL(pdfPreviewUrl);
+      }
+    };
+  }, [pdfPreviewUrl]);
+
+  // Handle tab change
+  const handleTabChange = useCallback((value: string) => {
+    setSelectedTab(value);
+    if (assessment) {
+      generatePreview(assessment, value);
+    }
+  }, [assessment, generatePreview]);
+
+  // Count controls by status
+  const countControlsByStatus = useCallback((): ControlStats => {
+    if (!assessment?.assessment?.controls) return { 
+      total: 0, 
+      implemented: 0, 
+      partiallyImplemented: 0, 
+      planned: 0, 
+      notImplemented: 0, 
+      notApplicable: 0 
+    };
+    
+    return calculatePdfStats(assessment.assessment);
+  }, [assessment]);
 
   const stats = countControlsByStatus();
 
   return (
-    <div className="card">
-      <h2 className="text-2xl font-bold mb-6 pb-2 border-b">Export Assessment Results</h2>
-      <p className="mb-4">Export your assessment data for analysis or backup.</p>
-      
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Select Assessment</h3>
-          <input 
-            type="file" 
-            accept=".json" 
-            onChange={handleFileUpload}
-            className="w-full p-3 border border-input rounded"
-          />
-          {fileError && <p className="text-destructive text-sm mt-2">{fileError}</p>}
+    <div className="space-y-6">
+      {loading ? (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex justify-center items-center h-64">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-muted-foreground">Loading assessment data...</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ) : !assessment ? (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-col items-center justify-center h-64 text-center">
+              <div className="mb-4 text-4xl text-muted-foreground">
+                <FileJson className="h-16 w-16 mx-auto mb-2 opacity-50" />
+              </div>
+              <h3 className="text-lg font-medium mb-2">No Assessment Data Found</h3>
+              <p className="text-muted-foreground max-w-md mb-4">
+                No assessment data could be found in your browser. Complete an assessment first to enable export features.
+              </p>
+              <Button variant="outline" onClick={() => window.location.href = '/assessment'}>
+                Go to Assessment
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Assessment Summary</CardTitle>
+              <CardDescription>
+                Overview of assessment for {assessment.assessment.organization}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-muted rounded-lg p-4">
+                  <div className="text-sm text-muted-foreground mb-1">Organization</div>
+                  <div className="font-medium">{assessment.assessment.organization}</div>
+                </div>
+                <div className="bg-muted rounded-lg p-4">
+                  <div className="text-sm text-muted-foreground mb-1">Assessor</div>
+                  <div className="font-medium">{assessment.assessment.assessor}</div>
+                </div>
+                <div className="bg-muted rounded-lg p-4">
+                  <div className="text-sm text-muted-foreground mb-1">Date</div>
+                  <div className="font-medium">{assessment.assessment.date}</div>
+                </div>
+                <div className="bg-muted rounded-lg p-4">
+                  <div className="text-sm text-muted-foreground mb-1">Overall Score</div>
+                  <div className="font-medium">{assessment.assessment.score}%</div>
+                </div>
+                <div className="bg-muted rounded-lg p-4">
+                  <div className="text-sm text-muted-foreground mb-1">Controls Implemented</div>
+                  <div className="font-medium">{stats.implemented} of {stats.total} ({Math.round((stats.implemented / stats.total) * 100) || 0}%)</div>
+                </div>
+                <div className="bg-muted rounded-lg p-4">
+                  <div className="text-sm text-muted-foreground mb-1">Partially Implemented</div>
+                  <div className="font-medium">{stats.partiallyImplemented} ({Math.round((stats.partiallyImplemented / stats.total) * 100) || 0}%)</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           
-          {assessment && (
-            <div className="mt-6 p-5 border border-border rounded bg-secondary/20">
-              <h4 className="font-bold text-lg mb-3">{assessment.assessment.name}</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                  <span className="text-sm text-muted-foreground block mb-1">Organization:</span>
-                  <p className="font-medium">{assessment.assessment.organization}</p>
-                </div>
-                <div>
-                  <span className="text-sm text-muted-foreground block mb-1">Assessor:</span>
-                  <p className="font-medium">{assessment.assessment.assessor}</p>
-                </div>
-                <div>
-                  <span className="text-sm text-muted-foreground block mb-1">Date:</span>
-                  <p className="font-medium">{assessment.assessment.date}</p>
-                </div>
-                <div>
-                  <span className="text-sm text-muted-foreground block mb-1">Status:</span>
-                  <p className="font-medium">{assessment.assessment.status}</p>
-                </div>
-              </div>
-              
-              <div className="mt-6">
-                <span className="text-sm text-muted-foreground block mb-1">Completion:</span>
-                <div className="w-full bg-muted h-3 mt-1 rounded-full overflow-hidden">
-                  <div 
-                    className="bg-primary h-full" 
-                    style={{ width: `${assessment.assessment.completion}%` }}
-                  ></div>
-                </div>
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-muted-foreground">0%</span>
-                  <span className="text-xs font-medium">{assessment.assessment.completion}%</span>
-                  <span className="text-xs text-muted-foreground">100%</span>
-                </div>
-              </div>
-              
-              <div className="mt-6">
-                <span className="text-sm text-muted-foreground block mb-1">Assessment Score:</span>
-                <p className="text-2xl font-bold mt-2">
-                  <span className={`score-display ${getScoreClass(assessment.assessment.score)}`}>
-                    {assessment.assessment.score}%
-                  </span>
-                </p>
-              </div>
-              
-              <div className="mt-6">
-                <span className="text-sm text-muted-foreground block mb-1">Control Status:</span>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2">
-                  <div className="text-center p-3 border border-border rounded bg-white">
-                    <span className="text-xs text-muted-foreground block mb-1">Implemented</span>
-                    <p className="text-xl font-bold">{stats.implemented}</p>
+          <Card>
+            <CardHeader>
+              <CardTitle>Export Assessment Results</CardTitle>
+              <CardDescription>
+                Choose an export format to download your assessment results
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs defaultValue="json" value={selectedTab} onValueChange={handleTabChange}>
+                <TabsList className="grid grid-cols-3 mb-6">
+                  <TabsTrigger value="json" className="flex items-center gap-2">
+                    <FileJson className="h-4 w-4" />
+                    <span>JSON</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="csv" className="flex items-center gap-2">
+                    <FileSpreadsheet className="h-4 w-4" />
+                    <span>CSV</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="pdf" className="flex items-center gap-2">
+                    <FileText className="h-4 w-4" />
+                    <span>PDF</span>
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="json" className="space-y-4">
+                  <div className="text-sm text-muted-foreground">
+                    Export as JSON to save all assessment data in a structured format that can be imported later.
                   </div>
-                  <div className="text-center p-3 border border-border rounded bg-white">
-                    <span className="text-xs text-muted-foreground block mb-1">Partially</span>
-                    <p className="text-xl font-bold">{stats.partiallyImplemented}</p>
+                </TabsContent>
+                
+                <TabsContent value="csv" className="space-y-4">
+                  <div className="text-sm text-muted-foreground">
+                    Export as CSV for easy import into spreadsheet applications like Excel or Google Sheets.
                   </div>
-                  <div className="text-center p-3 border border-border rounded bg-white">
-                    <span className="text-xs text-muted-foreground block mb-1">Planned</span>
-                    <p className="text-xl font-bold">{stats.planned}</p>
+                </TabsContent>
+                
+                <TabsContent value="pdf" className="space-y-4">
+                  <div className="text-sm text-muted-foreground mb-4">
+                    Export as PDF for a professional report that can be easily shared and printed.
                   </div>
-                  <div className="text-center p-3 border border-border rounded bg-white">
-                    <span className="text-xs text-muted-foreground block mb-1">Not Implemented</span>
-                    <p className="text-xl font-bold">{stats.notImplemented}</p>
+                  
+                  <div className="mb-4">
+                    <label className="text-sm font-medium mb-2 block">PDF Style</label>
+                    <Select value={pdfStyle} onValueChange={setPdfStyle}>
+                      <SelectTrigger className="w-full md:w-[240px]">
+                        <SelectValue placeholder="Select style" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="standard">Standard</SelectItem>
+                        <SelectItem value="modern">Modern</SelectItem>
+                        <SelectItem value="compact">Compact</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div className="text-center p-3 border border-border rounded bg-white">
-                    <span className="text-xs text-muted-foreground block mb-1">Not Applicable</span>
-                    <p className="text-xl font-bold">{stats.notApplicable}</p>
+                </TabsContent>
+                
+                {/* Preview Container */}
+                <div className="rounded-md border bg-muted/50 mt-4">
+                  <div className="px-4 py-3 border-b bg-muted/70 text-xs font-medium flex justify-between items-center">
+                    <span>Preview</span>
+                    {pdfPreviewUrl && (
+                      <a 
+                        href={pdfPreviewUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-primary flex items-center gap-1 hover:underline text-xs"
+                      >
+                        <Eye className="h-3 w-3" />
+                        <span>View full PDF</span>
+                      </a>
+                    )}
                   </div>
+                  
+                  {/* Show PDF preview or text preview based on selected tab */}
+                  {selectedTab === 'pdf' && pdfPreviewUrl ? (
+                    <div className="h-[400px] w-full">
+                      <iframe 
+                        ref={pdfPreviewRef}
+                        src={pdfPreviewUrl} 
+                        className="w-full h-full" 
+                        title="PDF Preview"
+                      />
+                    </div>
+                  ) : (
+                    <pre className="p-4 text-xs overflow-auto max-h-[300px] whitespace-pre-wrap break-all">{previewData}</pre>
+                  )}
                 </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-3 mt-6">
-          <h3 className="text-lg font-semibold mb-3">Export Format</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-secondary/20 p-4 rounded">
-            <div>
-              <label className="flex items-center space-x-2">
-                <input 
-                  type="radio" 
-                  name="format" 
-                  value="json"
-                  checked={exportFormat === 'json'}
-                  onChange={() => setExportFormat('json')}
-                />
-                <span className="font-medium">JSON</span>
-              </label>
-              <p className="text-sm text-muted-foreground ml-6 mt-1">Complete assessment data in JSON format for backup or import.</p>
-            </div>
-            <div>
-              <label className="flex items-center space-x-2">
-                <input 
-                  type="radio" 
-                  name="format" 
-                  value="csv"
-                  checked={exportFormat === 'csv'}
-                  onChange={() => setExportFormat('csv')}
-                />
-                <span className="font-medium">CSV</span>
-              </label>
-              <p className="text-sm text-muted-foreground ml-6 mt-1">Export controls and status in tabular format.</p>
-            </div>
-            <div>
-              <label className="flex items-center space-x-2">
-                <input 
-                  type="radio" 
-                  name="format" 
-                  value="pdf"
-                  checked={exportFormat === 'pdf'}
-                  onChange={() => setExportFormat('pdf')}
-                />
-                <span className="font-medium">PDF Report</span>
-              </label>
-              <p className="text-sm text-muted-foreground ml-6 mt-1">Formatted PDF report with assessment details.</p>
-            </div>
-          </div>
-        </div>
-        
-        {assessment && previewData && (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-3">Preview</h3>
-            <div className="bg-secondary/20 p-4 rounded font-mono text-sm overflow-auto max-h-[300px] border border-border">
-              <pre>{previewData}</pre>
-            </div>
-          </div>
-        )}
-        
-        <div className="flex gap-3 justify-end mt-6 pt-4 border-t">
-          {assessment && (
-            <>
-              <button 
-                className="btn"
-                onClick={handleCopyToClipboard}
-              >
-                Copy to Clipboard
-              </button>
-              <button 
-                className="btn btn-primary"
-                onClick={handleExport}
-              >
-                Export {exportFormat.toUpperCase()}
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+                
+                <div className="mt-6 flex justify-end">
+                  <Button 
+                    onClick={handleExport} 
+                    disabled={!assessment}
+                    className="flex items-center gap-2"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download {selectedTab.toUpperCase()}</span>
+                  </Button>
+                </div>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
 };

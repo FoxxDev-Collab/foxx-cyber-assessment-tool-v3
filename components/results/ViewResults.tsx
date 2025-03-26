@@ -290,20 +290,6 @@ const ViewResults: React.FC = () => {
     return grouped;
   };
 
-  // Get color based on status
-  const getStatusColor = (status?: string) => {
-    if (!status) return 'text-gray-700';
-    
-    switch (normalizeStatus(status)) {
-      case 'Implemented': return 'text-green-600';
-      case 'Partially Implemented': return 'text-orange-500';
-      case 'Planned': return 'text-blue-500';
-      case 'Not Implemented': return 'text-red-500';
-      case 'Not Applicable': return 'text-gray-500';
-      default: return 'text-gray-700';
-    }
-  };
-
   // Get implementation rate color
   const getRateColor = (rate: number) => {
     if (rate >= 80) return '#10b981'; // green-500
@@ -355,25 +341,47 @@ const ViewResults: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Function for status badge colors
+  const getStatusBadgeClass = (status: string): string => {
+    const normalizedStatus = normalizeStatus(status);
+    switch (normalizedStatus) {
+      case 'Implemented':
+        return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
+      case 'Partially Implemented':
+        return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300';
+      case 'Planned':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300';
+      case 'Not Implemented':
+        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
+      case 'Not Applicable':
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300';
+    }
+  };
+
   if (loading) {
     return (
-      <div className="card p-6 text-center">
-        <p>Loading assessment results...</p>
+      <div className="bg-card text-card-foreground rounded-lg shadow-sm border p-6 flex justify-center items-center h-40">
+        <p>Loading assessment data...</p>
       </div>
     );
   }
 
   if (!assessment) {
     return (
-      <div className="card p-6">
-        <h2 className="text-2xl font-bold mb-4">No Assessment Data Available</h2>
-        <p className="mb-4">There is no assessment data to display. Please complete an assessment first.</p>
-        <button
-          onClick={handleBackToAssessment}
-          className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90"
-        >
-          Back to Assessment
-        </button>
+      <div className="bg-card text-card-foreground rounded-lg shadow-sm border p-6">
+        <h3 className="text-xl font-semibold mb-4">No Assessment Data</h3>
+        <p className="text-muted-foreground mb-4">No assessment data was found.</p>
+        <p className="text-sm text-muted-foreground">Start by creating a new assessment from the homepage or import a previous assessment.</p>
+        <div className="mt-4">
+          <button
+            onClick={handleBackToAssessment}
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm hover:bg-primary/90"
+          >
+            Start New Assessment
+          </button>
+        </div>
       </div>
     );
   }
@@ -383,14 +391,14 @@ const ViewResults: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg border shadow-sm p-6">
+      <div className="bg-card text-card-foreground rounded-lg border shadow-sm p-6">
         <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
           <div>
             <h2 className="text-2xl font-bold">{assessment.name}</h2>
-            <p className="text-gray-600">Organization: {assessment.organization}</p>
-            <p className="text-gray-600">Assessor: {assessment.assessor}</p>
-            <p className="text-gray-600">Scope: {assessment.scope}</p>
-            <p className="text-gray-600">Date: {new Date(assessment.date).toLocaleDateString()}</p>
+            <p className="text-muted-foreground">Organization: {assessment.organization}</p>
+            <p className="text-muted-foreground">Assessor: {assessment.assessor}</p>
+            <p className="text-muted-foreground">Scope: {assessment.scope}</p>
+            <p className="text-muted-foreground">Date: {new Date(assessment.date).toLocaleDateString()}</p>
           </div>
           
           {controlsArray.length > 0 && (
@@ -402,10 +410,10 @@ const ViewResults: React.FC = () => {
               >
                 <div className="text-center">
                   <div className="text-3xl font-bold">{stats.implementationRate}%</div>
-                  <div className="text-xs text-gray-500">Security Score</div>
+                  <div className="text-xs text-muted-foreground">Security Score</div>
                 </div>
               </DonutChart>
-              <div className="text-sm text-gray-600 mt-2 text-center">
+              <div className="text-sm text-muted-foreground mt-2 text-center">
                 <div>Completion: <span className="font-semibold">{stats.completionRate}%</span></div>
                 <div className="text-xs mt-1">Score is weighted by implementation level</div>
               </div>
@@ -455,13 +463,13 @@ const ViewResults: React.FC = () => {
             <div className="mt-6 flex flex-wrap gap-3">
               <button
                 onClick={handleBackToAssessment}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                className="px-4 py-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/90"
               >
                 Back to Assessment
               </button>
               <button
                 onClick={handleExportAssessment}
-                className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
               >
                 Export as JSON
               </button>
@@ -471,20 +479,20 @@ const ViewResults: React.FC = () => {
       </div>
       
       {controlsArray.length > 0 && (
-        <div className="bg-white rounded-lg border shadow-sm p-6">
+        <div className="bg-card text-card-foreground rounded-lg border shadow-sm p-6">
           <h3 className="text-lg font-semibold mb-4">Control Families</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(groupControlsByFamily(controlsArray)).map(([family, controls]) => {
               const familyStats = calculateStats(controls);
               return (
-                <div key={family} className="border rounded-md p-4">
+                <div key={family} className="border rounded-md p-4 bg-background">
                   <div className="flex justify-between items-center mb-2">
                     <h4 className="font-medium">{getFamilyFullName(family)}</h4>
-                    <span className={getStatusColor()}>
+                    <span className={`px-2 py-1 rounded-full text-xs ${getStatusBadgeClass(normalizeStatus(familyStats.implementationRate >= 80 ? 'Implemented' : familyStats.implementationRate >= 50 ? 'Partially Implemented' : 'Not Implemented'))}`}>
                       {familyStats.implementationRate}% Complete
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                  <div className="w-full bg-muted rounded-full h-2 mb-4">
                     <div 
                       className="bg-primary h-2 rounded-full" 
                       style={{ width: `${familyStats.implementationRate}%` }}
@@ -492,19 +500,19 @@ const ViewResults: React.FC = () => {
                   </div>
                   <div className="text-sm grid grid-cols-2 gap-2">
                     <div className="flex items-center">
-                      <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500 dark:bg-green-600 mr-2"></div>
                       <span>Implemented: {familyStats.implemented}</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 rounded-full bg-orange-500 mr-2"></div>
+                      <div className="w-3 h-3 rounded-full bg-orange-500 dark:bg-orange-600 mr-2"></div>
                       <span>Partial: {familyStats.partiallyImplemented}</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                      <div className="w-3 h-3 rounded-full bg-blue-500 dark:bg-blue-600 mr-2"></div>
                       <span>Planned: {familyStats.planned}</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                      <div className="w-3 h-3 rounded-full bg-red-500 dark:bg-red-600 mr-2"></div>
                       <span>Not Impl: {familyStats.notImplemented}</span>
                     </div>
                   </div>
@@ -514,6 +522,88 @@ const ViewResults: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Additional assessments sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="bg-card text-card-foreground rounded-lg shadow-sm border p-6">
+          <h3 className="text-xl font-semibold mb-4">Assessment Summary</h3>
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Total Controls</h4>
+              <p className="text-xl font-bold">{stats.total}</p>
+            </div>
+            <div>
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Implementation Rate</h4>
+              <div className="flex items-center">
+                <div className="w-full bg-muted rounded-full h-4 mr-4">
+                  <div 
+                    className="h-4 rounded-full" 
+                    style={{ 
+                      width: `${stats.implementationRate}%`,
+                      backgroundColor: getRateColor(stats.implementationRate)
+                    }}
+                  ></div>
+                </div>
+                <span className="text-sm font-medium">{stats.implementationRate}%</span>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Controls Pending Action</h4>
+              <p className="text-xl font-bold">{stats.total - stats.implemented - stats.notApplicable}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-card text-card-foreground rounded-lg shadow-sm border p-6">
+          <h3 className="text-xl font-semibold mb-4">Control Distribution</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="border rounded p-3 bg-background">
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Implemented</h4>
+              <div className="flex justify-between items-end">
+                <div className="text-2xl font-bold">{stats.implemented}</div>
+                <div className="text-xs text-muted-foreground">{Math.round((stats.implemented / stats.total) * 100)}%</div>
+              </div>
+            </div>
+            <div className="border rounded p-3 bg-background">
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Partially</h4>
+              <div className="flex justify-between items-end">
+                <div className="text-2xl font-bold">{stats.partiallyImplemented}</div>
+                <div className="text-xs text-muted-foreground">{Math.round((stats.partiallyImplemented / stats.total) * 100)}%</div>
+              </div>
+            </div>
+            <div className="border rounded p-3 bg-background">
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Planned</h4>
+              <div className="flex justify-between items-end">
+                <div className="text-2xl font-bold">{stats.planned}</div>
+                <div className="text-xs text-muted-foreground">{Math.round((stats.planned / stats.total) * 100)}%</div>
+              </div>
+            </div>
+            <div className="border rounded p-3 bg-background">
+              <h4 className="text-sm font-medium text-muted-foreground mb-1">Not Implemented</h4>
+              <div className="flex justify-between items-end">
+                <div className="text-2xl font-bold">{stats.notImplemented}</div>
+                <div className="text-xs text-muted-foreground">{Math.round((stats.notImplemented / stats.total) * 100)}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className="flex justify-end gap-3 mt-8">
+        <button
+          onClick={handleBackToAssessment}
+          className="bg-secondary text-secondary-foreground px-4 py-2 rounded-md text-sm hover:bg-secondary/90"
+        >
+          Back to Assessment
+        </button>
+        <button
+          onClick={handleExportAssessment}
+          className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm hover:bg-primary/90"
+        >
+          Export Assessment
+        </button>
+      </div>
     </div>
   );
 };
